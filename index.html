@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MacLaggan & Long Family Tree</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Lato', sans-serif; background: #1a1a2e; color: #e0e0e0; overflow: hidden; height: 100vh; }
+
+        /* Header */
+        #header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+            border-bottom: 1px solid #2a2a4a; padding: 12px 24px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        #header h1 {
+            font-family: 'Playfair Display', serif; font-size: 1.4rem;
+            background: linear-gradient(135deg, #c9a96e, #f0d9a0);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        #header .subtitle { font-size: 0.75rem; color: #888; margin-top: 2px; }
+        .header-controls { display: flex; gap: 8px; align-items: center; }
+        .header-controls button {
+            background: #2a2a4a; border: 1px solid #3a3a5a; color: #ccc;
+            padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; transition: all 0.2s;
+        }
+        .header-controls button:hover { background: #3a3a5a; color: #fff; }
+        .header-controls button.active { background: #c9a96e; color: #1a1a2e; border-color: #c9a96e; }
+        #search-box {
+            background: #12192e; border: 1px solid #3a3a5a; border-radius: 6px;
+            color: #ddd; padding: 6px 12px; font-size: 0.8rem; width: 200px; outline: none;
+        }
+        #search-box:focus { border-color: #c9a96e; }
+
+        /* Canvas */
+        #canvas-wrapper { position: fixed; top: 60px; left: 0; right: 0; bottom: 0; overflow: hidden; cursor: grab; }
+        #canvas-wrapper:active { cursor: grabbing; }
+        #tree-canvas { position: absolute; transform-origin: 0 0; will-change: transform; }
+
+        /* Person cards */
+        .person-card {
+            position: absolute;
+            background: linear-gradient(145deg, #1e2a45, #1a2340);
+            border: 2px solid #2a3a5a; border-radius: 10px;
+            padding: 10px 12px; cursor: pointer; transition: border-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); text-align: center;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .person-card.has-photo { text-align: left; }
+        .person-card .card-thumb {
+            width: 50px; height: 60px; min-width: 50px;
+            border-radius: 6px; object-fit: cover;
+            border: 1px solid #3a3a5a;
+        }
+        .person-card .card-info { flex: 1; min-width: 0; }
+        .person-card:hover { border-color: #c9a96e; box-shadow: 0 8px 25px rgba(201,169,110,0.2); }
+        .person-card.selected { border-color: #c9a96e; box-shadow: 0 0 20px rgba(201,169,110,0.3); }
+        .person-card.male { border-top: 3px solid #4a90d9; }
+        .person-card.female { border-top: 3px solid #d94a8a; }
+        .person-card .name {
+            font-family: 'Playfair Display', serif; font-size: 0.82rem;
+            font-weight: 700; color: #f0d9a0; line-height: 1.3;
+        }
+        .person-card .maiden { font-size: 0.68rem; color: #999; font-style: italic; }
+        .person-card .dates { font-size: 0.63rem; color: #8899aa; margin-top: 2px; }
+        .person-card .occ-tag {
+            display: inline-block; background: #2a2a4a; border-radius: 4px;
+            padding: 1px 6px; font-size: 0.58rem; color: #aaa; margin-top: 3px;
+        }
+        .person-card .branch-label {
+            position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
+            font-size: 0.55rem; color: #666; white-space: nowrap; letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* SVG connectors */
+        #connections-svg { position: absolute; top: 0; left: 0; pointer-events: none; }
+
+        /* Detail panel */
+        #detail-panel {
+            position: fixed; right: -420px; top: 60px; bottom: 0; width: 400px;
+            background: linear-gradient(180deg, #16213e 0%, #1a1a2e 100%);
+            border-left: 1px solid #2a2a4a; z-index: 90;
+            transition: right 0.4s ease; overflow-y: auto; padding: 30px 24px;
+        }
+        #detail-panel.open { right: 0; }
+        #detail-panel .close-btn {
+            position: absolute; top: 12px; right: 16px;
+            background: none; border: none; color: #888; font-size: 1.5rem; cursor: pointer;
+        }
+        #detail-panel .close-btn:hover { color: #fff; }
+        .detail-photo {
+            width: 100%; max-height: 280px; object-fit: contain;
+            border-radius: 10px; margin-bottom: 16px;
+            border: 1px solid #2a2a4a;
+        }
+        .detail-name { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: #f0d9a0; margin-bottom: 4px; }
+        .detail-maiden { font-size: 0.9rem; color: #999; font-style: italic; margin-bottom: 16px; }
+        .detail-section { margin-bottom: 20px; }
+        .detail-section h3 {
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px;
+            color: #c9a96e; margin-bottom: 8px; border-bottom: 1px solid #2a2a4a; padding-bottom: 4px;
+        }
+        .detail-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #1a1a2e; }
+        .detail-row .label { color: #888; font-size: 0.8rem; }
+        .detail-row .value { color: #ddd; font-size: 0.85rem; text-align: right; max-width: 60%; }
+        .story-box {
+            background: #12192e; border: 1px solid #2a2a4a; border-radius: 8px;
+            padding: 14px; font-size: 0.85rem; color: #aaa; line-height: 1.7; font-style: italic;
+        }
+        .family-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+        .family-link {
+            background: #2a2a4a; border: 1px solid #3a3a5a; border-radius: 6px;
+            padding: 4px 10px; font-size: 0.75rem; color: #ccc; cursor: pointer; transition: all 0.2s;
+        }
+        .family-link:hover { background: #c9a96e; color: #1a1a2e; border-color: #c9a96e; }
+
+        /* Zoom */
+        .zoom-controls {
+            position: fixed; bottom: 20px; left: 20px; z-index: 50;
+            display: flex; flex-direction: column; gap: 4px;
+        }
+        .zoom-controls button {
+            width: 36px; height: 36px; background: #2a2a4a; border: 1px solid #3a3a5a;
+            color: #ccc; font-size: 1.2rem; border-radius: 6px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .zoom-controls button:hover { background: #3a3a5a; }
+
+        /* Legend */
+        #legend {
+            position: fixed; bottom: 20px; right: 20px; z-index: 50;
+            background: #12192e; border: 1px solid #2a2a4a; border-radius: 8px; padding: 12px 16px; font-size: 0.7rem;
+        }
+        .legend-item { display: flex; align-items: center; gap: 8px; margin: 4px 0; color: #aaa; }
+        .legend-line { width: 30px; height: 0; border-top: 2px solid; }
+
+        /* Overlays */
+        .overlay {
+            display: none; position: fixed; top: 60px; left: 0; right: 0; bottom: 0;
+            background: rgba(10,10,20,0.95); z-index: 80; padding: 40px; overflow-y: auto;
+        }
+        .overlay.show { display: block; }
+        .overlay-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #f0d9a0; text-align: center; margin-bottom: 30px; }
+        .overlay .close-btn { position: fixed; top: 70px; right: 20px; background: none; border: none; color: #888; font-size: 1.5rem; cursor: pointer; z-index: 90; }
+        .migration-path { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+        .migration-stop { background: #1e2a45; border: 1px solid #3a3a5a; border-radius: 8px; padding: 10px 18px; text-align: center; }
+        .migration-stop .place { color: #f0d9a0; font-weight: 700; font-size: 0.95rem; }
+        .migration-stop .period { color: #888; font-size: 0.75rem; margin-top: 2px; }
+        .migration-arrow { color: #c9a96e; font-size: 1.4rem; }
+        .migration-family-label { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #c9a96e; margin: 20px 0 12px 0; padding-left: 10px; border-left: 3px solid #c9a96e; }
+        .migration-note { color: #999; font-size: 0.85rem; max-width: 700px; margin: 0 auto 30px auto; line-height: 1.7; font-style: italic; text-align: center; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; max-width: 900px; margin: 0 auto; }
+        .stat-card { background: #1e2a45; border: 1px solid #2a3a5a; border-radius: 12px; padding: 24px; text-align: center; }
+        .stat-card .stat-number { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: #c9a96e; }
+        .stat-card .stat-label { color: #888; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; }
+        .timeline-container { max-width: 700px; margin: 30px auto; position: relative; }
+        .timeline-container::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: #2a3a5a; }
+        .timeline-event { position: relative; padding: 10px 0; display: flex; align-items: center; }
+        .timeline-event:nth-child(odd) { justify-content: flex-start; padding-right: 52%; }
+        .timeline-event:nth-child(even) { justify-content: flex-end; padding-left: 52%; }
+        .timeline-event .event-dot { position: absolute; left: calc(50% - 6px); width: 12px; height: 12px; background: #c9a96e; border-radius: 50%; border: 2px solid #1a1a2e; }
+        .timeline-event .event-card { background: #1e2a45; border: 1px solid #2a3a5a; border-radius: 8px; padding: 10px 14px; max-width: 280px; }
+        .event-card .event-year { color: #c9a96e; font-size: 0.8rem; font-weight: 700; }
+        .event-card .event-text { color: #bbb; font-size: 0.8rem; margin-top: 4px; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #1a1a2e; }
+        ::-webkit-scrollbar-thumb { background: #2a3a5a; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+<div id="header">
+    <div>
+        <h1>MacLaggan & Long Family Tree</h1>
+        <div class="subtitle">Scotland &bull; Italy &bull; Arkansas &bull; Montana &bull; California &bull; Arizona</div>
+    </div>
+    <div class="header-controls">
+        <input type="text" id="search-box" placeholder="Search names..." oninput="searchPeople(this.value)">
+        <button onclick="toggleView('tree')" class="active" id="btn-tree">Tree</button>
+        <button onclick="toggleView('migration')" id="btn-migration">Migration</button>
+        <button onclick="toggleView('stats')" id="btn-stats">Timeline</button>
+    </div>
+</div>
+
+<div id="canvas-wrapper">
+    <div id="tree-canvas">
+        <svg id="connections-svg"></svg>
+    </div>
+</div>
+
+<div id="detail-panel">
+    <button class="close-btn" onclick="closeDetail()">&times;</button>
+    <div id="detail-content"></div>
+</div>
+
+<div class="zoom-controls">
+    <button onclick="zoomIn()">+</button>
+    <button onclick="zoomOut()">&minus;</button>
+    <button onclick="resetZoom()" style="font-size:0.7rem">Fit</button>
+</div>
+
+<div id="legend">
+    <div class="legend-item"><div class="legend-line" style="border-color:#c9a96e; border-style:dashed;"></div> Marriage</div>
+    <div class="legend-item"><div class="legend-line" style="border-color:#5a7aaa;"></div> Parent &rarr; Child</div>
+    <div class="legend-item"><div style="width:12px;height:3px;background:#4a90d9;border-radius:1px;"></div> Male</div>
+    <div class="legend-item"><div style="width:12px;height:3px;background:#d94a8a;border-radius:1px;"></div> Female</div>
+</div>
+
+<!-- Migration overlay -->
+<div id="migration-overlay" class="overlay">
+    <button class="close-btn" onclick="toggleView('tree')">&times;</button>
+    <div class="overlay-title">Family Migration Routes</div>
+    <div class="migration-family-label">MacLaggan Line (Paternal)</div>
+    <div class="migration-path">
+        <div class="migration-stop"><div class="place">Aberdeen, Scotland</div><div class="period">Origins, ~1870s</div></div>
+        <div class="migration-arrow">&#10140;</div>
+        <div class="migration-stop"><div class="place">New Brunswick, Canada</div><div class="period">Emigration</div></div>
+        <div class="migration-arrow">&#10140;</div>
+        <div class="migration-stop"><div class="place">Maine, USA</div><div class="period">Entry</div></div>
+        <div class="migration-arrow">&#10140;</div>
+        <div class="migration-stop"><div class="place">Butte, Montana</div><div class="period">Copper Mining, ~1890s</div></div>
+        <div class="migration-arrow">&#10140;</div>
+        <div class="migration-stop"><div class="place">N. California</div><div class="period">Bully Hill, Kennett</div></div>
+        <div class="migration-arrow">&#10140;</div>
+        <div class="migration-stop"><div class="place">Oakland, CA</div><div class="period">After mines closed</div></div>
+    </div>
+    <div class="migration-note">"The earlier generations used Mc instead of MAC — because the Irish were more dominant in populace than the Scotch and the name was misspelled so often."</div>
+    <div class="migration-family-label">Rossi Line (Paternal Maternal)</div>
+    <div class="migration-path">
+        <div class="migration-stop"><div class="place">Italy</div><div class="period">Origins</div></div>
+        <div class="migration-arrow">&#10140;</div>
+        <div class="migration-stop"><div class="place">Chicago, IL</div><div class="period">Immigration</div></div>
+        <div class="migration-arrow">&#10140;</div>
+        <div class="migration-stop"><div class="place">St. Helena, CA</div><div class="period">Wine Country</div></div>
+        <div class="migration-arrow">&#10140;</div>
+        <div class="migration-stop"><div class="place">N. California</div><div class="period">Copper Mining Towns</div></div>
+    </div>
+    <div class="migration-family-label">Long / Bishop Line (Maternal)</div>
+    <div class="migration-path">
+        <div class="migration-stop"><div class="place">Little Egypt, IL</div><div class="period">Long Family</div></div>
+        <div class="migration-arrow">&#10140;</div>
+        <div class="migration-stop"><div class="place">Rector, Arkansas</div><div class="period">Bishop Family</div></div>
+        <div class="migration-arrow">&#10140;</div>
+        <div class="migration-stop"><div class="place">Arizona</div><div class="period">1916 Migration</div></div>
+    </div>
+    <div class="migration-family-label">Cecil Martha (Long) MacLaggan's Journey</div>
+    <div class="migration-path">
+        <div class="migration-stop"><div class="place">Clarkdale, AZ</div><div class="period">Born 1920</div></div>
+        <div class="migration-arrow">&#10140;</div>
+        <div class="migration-stop"><div class="place">Globe, AZ</div><div class="period">1931&ndash;32</div></div>
+        <div class="migration-arrow">&#10140;</div>
+        <div class="migration-stop"><div class="place">Ludlow, CA</div><div class="period">1932&ndash;33</div></div>
+        <div class="migration-arrow">&#10140;</div>
+        <div class="migration-stop"><div class="place">San Bernardino</div><div class="period">High School</div></div>
+        <div class="migration-arrow">&#10140;</div>
+        <div class="migration-stop"><div class="place">Stanford</div><div class="period">Nursing School</div></div>
+        <div class="migration-arrow">&#10140;</div>
+        <div class="migration-stop"><div class="place">Carson City, NV</div><div class="period">Married 1942</div></div>
+        <div class="migration-arrow">&#10140;</div>
+        <div class="migration-stop"><div class="place">San Diego, CA</div><div class="period">Navy, Sept 1944</div></div>
+    </div>
+    <div class="migration-note">"My father worked his entire life for the Railway Express Co. Clarkdale was a copper mining town (3,000 pp). We lived there until 1930."</div>
+</div>
+
+<!-- Stats/Timeline overlay -->
+<div id="stats-overlay" class="overlay">
+    <button class="close-btn" onclick="toggleView('tree')">&times;</button>
+    <div class="overlay-title">Family Timeline & Stats</div>
+    <div class="stats-grid" id="stats-grid"></div>
+    <div class="timeline-container" id="timeline"></div>
+</div>
+
+<script>
+// ===================================================================
+//  FAMILY DATA
+// ===================================================================
+const CW = 170; // card width
+const CH = 80;  // estimated card height
+const GAP = 22; // gap between couple cards
+
+const people = {
+    // --- Gen 1: Great-Great-Great (Wooley) ---
+    cc_wooley:      { name: 'C.C. Wooley', gender: 'male', death: 'Died at age 90', notes: 'Drummer for the South in the Civil War.' },
+    martha_wooley:  { name: 'Martha Wooley', gender: 'female', death: 'July 14, 1932 (age 99)', notes: 'Lived to 99 years old.' },
+
+    // --- Gen 2: Great-Great (Gunter) ---
+    isaiah_gunter:  { name: 'Isaiah L. Gunter', gender: 'male', birth: '1858', death: '1937', occupation: 'Farmer' },
+    martha_gunter:  { name: 'Martha A. Gunter', maiden: 'Wooley', gender: 'female', birth: '1860', death: '1945', occupation: 'Farmer' },
+
+    // --- Gen 3: Great-Grandparents ---
+    elias_maclaggan:      { name: 'Elias James McLaggan', gender: 'male', birth: 'c. early 1870s', death: 'Died in Redding, CA', location: 'Aberdeen, Scotland → Butte, MT → CA', occupation: 'Mine Superintendent', notes: 'Born in Aberdeen, Scotland. Emigrated through New Brunswick, Canada & Maine to Montana. Applied for US citizenship Oct 7, 1896 in Butte, Montana. "Does absolutely and entirely renounce and abjure all allegiance… and particularly to Victoria Queen of Great Britain and Ireland and Empress of India."' },
+    first_wife_maclaggan: { name: '(Unknown) McLaggan', gender: 'female', death: 'Died in Butte, MT', location: 'Aberdeen → Butte, MT', notes: 'First wife of Elias. Died at childbirth of Charles. Photo from 1887 in Aberdeen, Scotland.' },
+    annie_maclaggan:      { name: 'Annie (Aly) McLaggan', gender: 'female', death: 'Jan 1938, Redding, CA', notes: 'Second wife of Elias. Mother of half-sisters Margaret & Helen.' },
+    alec_rossi:           { name: 'Alex Rossi', gender: 'male', location: 'Italy → Chicago → California', notes: 'Emigrated from Italy through Chicago to California.', photo: 'photos/Alex Rossi.jpg' },
+    margaret_rossi:       { name: 'Margaret Rossi', gender: 'female', location: 'Italy → Chicago → California', occupation: 'Midwife', notes: 'Grandma Rossi was the midwife in the copper mining community.', photo: 'photos/Margaret Rossi.jpg' },
+    rufus_bishop:         { name: 'Rufus Bishop', gender: 'male', birth: 'June 2, 1873', death: '1938', occupation: 'Butcher' },
+    rosa_bishop:          { name: 'Rosa Adeline Bishop', maiden: 'Gunter', gender: 'female', birth: 'Aug 21, 1881', death: 'Sept 25, 1915', location: 'Rector, Arkansas', notes: 'Died following childbirth of 4th child Lloyd.' },
+    george_long:          { name: 'George Arthur Long', gender: 'male', location: 'Little Egypt, IL' },
+    elizabeth_long:       { name: 'Elizabeth Long', maiden: 'Faulkner', gender: 'female', death: 'April 1933', notes: 'Second marriage.' },
+
+    // --- Gen 4: Grandparents ---
+    helen_maclaggan:        { name: 'Helen MacLaggan', gender: 'female', notes: 'Half-sister to Charles. Daughter of Elias & Annie (2nd wife).', photo: 'photos/Helen Mc Laggan.jpg' },
+    margaret_maclaggan_half:{ name: 'Margaret MacLaggan', gender: 'female', notes: 'Half-sister to Charles. Daughter of Elias & Annie (2nd wife).' },
+    charles_maclaggan:      { name: 'Charles Chester MacLaggan', gender: 'male', birth: '1887, Butte, MT', death: '1926, Oakland, CA', location: 'Butte → Bully Hill → Kennett → Oakland', occupation: 'Miner / Street Car Conductor', notes: 'Worked as a miner, then street car conductor. Died of stomach cancer.', photo: 'photos/Charles MacLaggan.jpg' },
+    ida_maclaggan:          { name: 'Ida Mary MacLaggan', maiden: 'Rossi', gender: 'female', birth: '1893, St. Helena, CA', death: '1928, Oakland, CA', marriage: 'Married 1908', notes: 'Died of tubercular meningitis.', photo: 'photos/Ida MacLaggan.jpg' },
+    iva_long:               { name: 'Iva Dora Long', maiden: 'Bishop', gender: 'female', birth: 'Oct 16, 1900', death: 'Oct 29, 1974', location: 'Rector, AR → Arizona', marriage: 'Married June 1, 1919', notes: 'Moved to Arizona in 1916.', photo: 'photos/Iva Long.jpg' },
+    john_long:              { name: 'John Arthur Long', gender: 'male', birth: 'May 29, 1894', death: 'Apr 27, 1986', location: 'Arizona', occupation: 'Railway Express Co.', notes: 'Worked his entire life for the Railway Express Co. Family moved to Arizona in 1916.', photo: 'photos/John Long.jpg' },
+
+    // --- Gen 5: Parents ---
+    charles_jr:       { name: 'Charles MacLaggan Jr.', gender: 'male', death: 'Died in infancy', notes: 'Buried in Redding.' },
+    marguerite_black: { name: 'Marguerite Elise Black', maiden: 'MacLaggan', gender: 'female', birth: 'Aug 1, 1911', death: 'Dec 27, 1996', location: 'Bully Hill, CA → San Marcos', notes: 'After parents died, lived with friends then attended Stanford Nursing School.' },
+    jim_maclaggan:    { name: 'James Chester MacLaggan Sr.', gender: 'male', birth: 'Oct 27, 1916', death: 'July 25, 1988', location: 'Kennett, CA', notes: 'Born in Kennett, CA. After parents died (father 1926, mother 1928), went to live with Uncle Ups, then Grandma Rosa, then Valentine\'s in Castella.', photo: 'photos/James Chester MacLaggan.jpg' },
+    martha_maclaggan: { name: 'Cecil Martha MacLaggan', maiden: 'Long', gender: 'female', birth: 'Mar 22, 1920', location: 'Clarkdale → San Bernardino → Stanford → San Diego', marriage: 'Married June 20, 1942, Carson City, NV', notes: 'Born in Clarkdale, Arizona (copper mining town, ~3,000 pop). Lived there until 1930. Globe 1931-32, Ludlow CA 1932-33, San Bernardino through high school. 1 year S.B. Junior College. Stanford Nursing School. To San Diego via Navy, September 1944.' },
+    edwin_long:       { name: 'Edwin Bishop Long', gender: 'male', birth: 'Sept 25, 1921', location: 'Phoenix, Arizona', photo: 'photos/Eddie Long.JPG' },
+
+    // --- Gen 6: Children of Jim & Martha ---
+    gregory_maclaggan: { name: 'Gregory Scott MacLaggan', gender: 'male', birth: 'Feb 14, 1946', notes: 'Born on Valentine\'s Day (Thursday). May be "Scott" in family records.' },
+    jamie_maclaggan:   { name: 'Jamie MacLaggan', gender: 'male' },
+    chuck_maclaggan:   { name: 'Chuck MacLaggan', gender: 'male' },
+    ran_maclaggan:     { name: 'Ran MacLaggan', gender: 'female' },
+    katie_maclaggan:   { name: 'Katie MacLaggan', gender: 'female' },
+    mickey_maclaggan:  { name: 'Mickey MacLaggan', gender: 'female' },
+    peter_maclaggan:   { name: 'Peter MacLaggan', gender: 'male' },
+    chris_maclaggan:   { name: 'Chris MacLaggan', gender: 'male' },
+
+};
+
+// Marriages
+const marriages = [
+    ['cc_wooley', 'martha_wooley'],
+    ['isaiah_gunter', 'martha_gunter'],
+    ['elias_maclaggan', 'first_wife_maclaggan'],
+    ['elias_maclaggan', 'annie_maclaggan'],
+    ['alec_rossi', 'margaret_rossi'],
+    ['rufus_bishop', 'rosa_bishop'],
+    ['george_long', 'elizabeth_long'],
+    ['charles_maclaggan', 'ida_maclaggan'],
+    ['iva_long', 'john_long'],
+    ['jim_maclaggan', 'martha_maclaggan'],
+];
+
+// Families (couple → children)
+const families = [
+    { couple: ['cc_wooley', 'martha_wooley'], children: ['martha_gunter'] },
+    { couple: ['isaiah_gunter', 'martha_gunter'], children: ['rosa_bishop'] },
+    { couple: ['rufus_bishop', 'rosa_bishop'], children: ['iva_long'] },
+    { couple: ['george_long', 'elizabeth_long'], children: ['john_long'] },
+    { couple: ['elias_maclaggan', 'first_wife_maclaggan'], children: ['charles_maclaggan'] },
+    { couple: ['elias_maclaggan', 'annie_maclaggan'], children: ['helen_maclaggan', 'margaret_maclaggan_half'] },
+    { couple: ['alec_rossi', 'margaret_rossi'], children: ['ida_maclaggan'] },
+    { couple: ['charles_maclaggan', 'ida_maclaggan'], children: ['charles_jr', 'marguerite_black', 'jim_maclaggan'] },
+    { couple: ['iva_long', 'john_long'], children: ['martha_maclaggan', 'edwin_long'] },
+    { couple: ['jim_maclaggan', 'martha_maclaggan'], children: ['gregory_maclaggan', 'jamie_maclaggan', 'chuck_maclaggan', 'ran_maclaggan', 'katie_maclaggan', 'mickey_maclaggan', 'peter_maclaggan', 'chris_maclaggan'] },
+];
+
+// ===================================================================
+//  MANUAL LAYOUT — two branches converging, no line crossings
+//
+//  Principle: each parent couple is positioned directly above their
+//  children so connector lines go DOWN without crossing other lines.
+//
+//  LEFT branch: MacLaggan / Rossi → Charles+Ida → Jim
+//  RIGHT branch: Wooley → Gunter → Bishop / Long → Iva+John → Martha
+//  They CONVERGE at Jim + Martha (married couple)
+// ===================================================================
+const ROW = [40, 220, 400, 580, 760, 960]; // Y positions per generation row
+
+const pos = {
+    // --- Row 0 (Gen 1): Wooley ---
+    cc_wooley:      [1010, ROW[0]],
+    martha_wooley:  [1202, ROW[0]],
+
+    // --- Row 1 (Gen 2): Gunter (directly below Wooley) ---
+    isaiah_gunter:  [1010, ROW[1]],
+    martha_gunter:  [1202, ROW[1]],
+
+    // --- Row 2 (Gen 3): Four couples + Annie ---
+    // LEFT: Elias+1stWife (→ Charles), then Rossi (→ Ida)
+    // RIGHT: Bishop (→ Iva), then George Long (→ John)
+    // Annie far left of Elias
+    annie_maclaggan:      [10,   ROW[2]],
+    elias_maclaggan:      [230,  ROW[2]],
+    first_wife_maclaggan: [422,  ROW[2]],
+    alec_rossi:           [640,  ROW[2]],
+    margaret_rossi:       [832,  ROW[2]],
+    rufus_bishop:         [1060, ROW[2]],
+    rosa_bishop:          [1252, ROW[2]],
+    george_long:          [1470, ROW[2]],
+    elizabeth_long:       [1662, ROW[2]],
+
+    // --- Row 3 (Gen 4): Grandparents ---
+    // Half-sisters far left (from Elias+Annie)
+    helen_maclaggan:         [10,   ROW[3]],
+    margaret_maclaggan_half: [200,  ROW[3]],
+    // Charles+Ida centered between Elias(~411) & Rossi(~821) = ~616
+    charles_maclaggan:       [435,  ROW[3]],
+    ida_maclaggan:           [627,  ROW[3]],
+    // Iva+John centered between Bishop(~1241) & Long(~1651) = ~1446
+    // Iva LEFT (from Bishop), John RIGHT (from Long) — avoids crossing
+    iva_long:                [1265, ROW[3]],
+    john_long:               [1457, ROW[3]],
+
+    // --- Row 4 (Gen 5): Parents ---
+    // Charles+Ida center ≈ 616 → children: ChasJr, Marguerite, Jim
+    // Iva+John center ≈ 1446 → children: Martha, Edwin
+    // Jim & Martha are married: Jim pulled right, Martha pulled left
+    charles_jr:        [300,  ROW[4]],
+    marguerite_black:  [510,  ROW[4]],
+    jim_maclaggan:     [790,  ROW[4]],
+    martha_maclaggan:  [982,  ROW[4]],
+    edwin_long:        [1280, ROW[4]],
+
+    // --- Row 5 (Gen 6): Children ---
+    // Jim+Martha couple center ≈ 971. 8 children × 190px spacing = 1520
+    // Center at 971 → start = 971 - 760 = 211
+    gregory_maclaggan: [211,  ROW[5]],
+    jamie_maclaggan:   [401,  ROW[5]],
+    chuck_maclaggan:   [591,  ROW[5]],
+    ran_maclaggan:     [781,  ROW[5]],
+    katie_maclaggan:   [971,  ROW[5]],
+    mickey_maclaggan:  [1161, ROW[5]],
+    peter_maclaggan:   [1351, ROW[5]],
+    chris_maclaggan:   [1541, ROW[5]],
+
+};
+
+// Timeline events
+const timelineEvents = [
+    { year: '~1870s', text: 'Elias James McLaggan born in Aberdeen, Scotland' },
+    { year: '1858', text: 'Isaiah L. Gunter born' },
+    { year: '1873', text: 'Rufus Bishop born (June 2)' },
+    { year: '1881', text: 'Rosa Adeline Gunter born (Aug 21)' },
+    { year: '1887', text: 'Charles Chester MacLaggan born in Butte, Montana' },
+    { year: '1893', text: 'Ida Mary Rossi born in St. Helena, CA' },
+    { year: '1894', text: 'John Arthur Long born (May 29)' },
+    { year: '1896', text: 'Elias McLaggan becomes US citizen in Butte, Montana' },
+    { year: '1900', text: 'Iva Dora Bishop born (Oct 16)' },
+    { year: '1908', text: 'Charles Chester MacLaggan marries Ida Rossi' },
+    { year: '1911', text: 'Marguerite Elise MacLaggan born in Bully Hill, CA' },
+    { year: '1915', text: 'Rosa Bishop dies after childbirth of Lloyd' },
+    { year: '1916', text: 'James Chester MacLaggan born in Kennett, CA' },
+    { year: '1916', text: 'Iva Bishop & family move to Arizona' },
+    { year: '1919', text: 'John Arthur Long marries Iva Dora Bishop' },
+    { year: '1920', text: 'Cecil Martha (Long) born in Clarkdale, AZ' },
+    { year: '1921', text: 'Edwin Bishop Long born in Phoenix, AZ' },
+    { year: '1926', text: 'Charles Chester MacLaggan dies (stomach cancer)' },
+    { year: '1928', text: 'Ida Mary (Rossi) MacLaggan dies (tubercular meningitis)' },
+    { year: '1930', text: 'Long family leaves Clarkdale — Globe, Ludlow, San Bernardino' },
+    { year: '1932', text: 'Martha Wooley dies at age 99' },
+    { year: '1938', text: 'Rufus Bishop dies; Annie McLaggan dies in Redding' },
+    { year: '1942', text: 'James Chester Sr. marries Cecil Martha Long — Carson City, NV' },
+    { year: '1944', text: 'MacLaggans move to San Diego via Navy' },
+    { year: '1946', text: "Gregory Scott MacLaggan born on Valentine's Day" },
+    { year: '1974', text: 'Iva Dora Long dies' },
+    { year: '1986', text: 'John Arthur Long dies at 91' },
+    { year: '1988', text: 'James Chester MacLaggan Sr. dies' },
+    { year: '1996', text: 'Marguerite Elise (MacLaggan) Black dies' },
+];
+
+// ===================================================================
+//  RENDERING
+// ===================================================================
+let scale = 0.52, panX = 80, panY = 10;
+let isDragging = false, dragStartX, dragStartY;
+let selectedPerson = null;
+
+function render() {
+    const canvas = document.getElementById('tree-canvas');
+    canvas.querySelectorAll('.person-card').forEach(e => e.remove());
+
+    const svg = document.getElementById('connections-svg');
+    svg.innerHTML = '';
+
+    // Compute canvas size
+    let maxX = 0, maxY = 0;
+    for (const id in pos) {
+        maxX = Math.max(maxX, pos[id][0] + CW + 200);
+        maxY = Math.max(maxY, pos[id][1] + CH + 200);
+    }
+    svg.setAttribute('width', maxX);
+    svg.setAttribute('height', maxY);
+    svg.style.width = maxX + 'px';
+    svg.style.height = maxY + 'px';
+
+    // --- Draw connections ---
+    drawConnections(svg);
+
+    // --- Draw person cards ---
+    for (const id in pos) {
+        const p = people[id];
+        if (!p) continue;
+        const [x, y] = pos[id];
+
+        const el = document.createElement('div');
+        el.className = `person-card ${p.gender}${selectedPerson === id ? ' selected' : ''}${p.photo ? ' has-photo' : ''}`;
+        el.style.left = x + 'px';
+        el.style.top = y + 'px';
+        el.style.width = CW + 'px';
+        el.dataset.id = id;
+        el.onclick = () => selectPerson(id);
+
+        let html = '';
+        if (p.photo) html += `<img class="card-thumb" src="${p.photo}" alt="${p.name}">`;
+        html += `<div class="card-info">`;
+        html += `<div class="name">${p.name}</div>`;
+        if (p.maiden) html += `<div class="maiden">née ${p.maiden}</div>`;
+        const dates = [];
+        if (p.birth) dates.push('b. ' + p.birth);
+        if (p.death) dates.push('d. ' + p.death);
+        if (dates.length) html += `<div class="dates">${dates.join(' · ')}</div>`;
+        if (p.occupation) html += `<div class="occ-tag">${p.occupation}</div>`;
+        html += `</div>`;
+
+        el.innerHTML = html;
+        canvas.appendChild(el);
+    }
+    updateTransform();
+}
+
+// Helper: center-x of a person card
+function cx(id) { return pos[id] ? pos[id][0] + CW / 2 : 0; }
+function cy(id) { return pos[id] ? pos[id][1] : 0; }
+function bot(id) { return pos[id] ? pos[id][1] + CH : 0; }
+function top_(id) { return pos[id] ? pos[id][1] : 0; }
+
+function drawConnections(svg) {
+    const isRelated = (id) => {
+        if (!selectedPerson) return false;
+        if (id === selectedPerson) return true;
+        // Check if they share a family
+        return families.some(f => {
+            const members = [...(f.couple || []), ...(f.parent ? [f.parent] : []), ...f.children];
+            return members.includes(id) && members.includes(selectedPerson);
+        });
+    };
+
+    // --- Marriage lines ---
+    marriages.forEach(([id1, id2]) => {
+        if (!pos[id1] || !pos[id2]) return;
+        const [x1, y1] = pos[id1];
+        const [x2, y2] = pos[id2];
+        if (Math.abs(y1 - y2) > 10) return; // skip if not on same row (Elias+Annie handled separately)
+
+        // Determine which is left and right
+        const leftId = x1 < x2 ? id1 : id2;
+        const rightId = x1 < x2 ? id2 : id1;
+        const lx = pos[leftId][0] + CW;
+        const ly = pos[leftId][1] + CH / 2;
+        const rx = pos[rightId][0];
+        const ry = pos[rightId][1] + CH / 2;
+
+        svg.appendChild(svgEl('line', {
+            x1: lx, y1: ly, x2: rx, y2: ry,
+            stroke: '#c9a96e', 'stroke-width': 2, 'stroke-dasharray': '6 4', opacity: 0.6
+        }));
+        // Diamond at midpoint
+        const mx = (lx + rx) / 2, my = (ly + ry) / 2;
+        svg.appendChild(svgEl('polygon', {
+            points: `${mx},${my-5} ${mx+5},${my} ${mx},${my+5} ${mx-5},${my}`,
+            fill: '#c9a96e', opacity: 0.5
+        }));
+    });
+
+    // --- Elias ↔ Annie special marriage line (different positions) ---
+    if (pos.elias_maclaggan && pos.annie_maclaggan) {
+        const ey = pos.elias_maclaggan[1] + CH / 2;
+        svg.appendChild(svgEl('line', {
+            x1: pos.annie_maclaggan[0] + CW, y1: ey,
+            x2: pos.elias_maclaggan[0], y2: ey,
+            stroke: '#c9a96e', 'stroke-width': 2, 'stroke-dasharray': '6 4', opacity: 0.6
+        }));
+    }
+
+    // --- Parent-child T-bracket connections ---
+    families.forEach(fam => {
+        let dropX, dropFromY;
+
+        if (fam.couple) {
+            const [id1, id2] = fam.couple;
+            if (!pos[id1] || !pos[id2]) return;
+            dropX = (cx(id1) + cx(id2)) / 2;
+            dropFromY = Math.max(bot(id1), bot(id2));
+        } else if (fam.parent) {
+            if (!pos[fam.parent]) return;
+            dropX = cx(fam.parent);
+            dropFromY = bot(fam.parent);
+        } else return;
+
+        const children = fam.children.filter(cid => pos[cid]);
+        if (children.length === 0) return;
+
+        const highlight = selectedPerson && (
+            (fam.couple && fam.couple.includes(selectedPerson)) ||
+            fam.parent === selectedPerson ||
+            fam.children.includes(selectedPerson)
+        );
+        const color = highlight ? '#c9a96e' : '#5a7aaa';
+        const sw = highlight ? 2.5 : 1.5;
+
+        const childCenters = children.map(cid => cx(cid));
+        const childTops = children.map(cid => top_(cid));
+        const barY = dropFromY + (childTops[0] - dropFromY) * 0.45;
+
+        // Vertical from couple center down to bar
+        svg.appendChild(svgEl('line', {
+            x1: dropX, y1: dropFromY, x2: dropX, y2: barY,
+            stroke: color, 'stroke-width': sw
+        }));
+
+        if (children.length === 1) {
+            // Straight line to single child
+            svg.appendChild(svgEl('line', {
+                x1: dropX, y1: barY, x2: childCenters[0], y2: barY,
+                stroke: color, 'stroke-width': sw
+            }));
+            svg.appendChild(svgEl('line', {
+                x1: childCenters[0], y1: barY, x2: childCenters[0], y2: childTops[0],
+                stroke: color, 'stroke-width': sw
+            }));
+        } else {
+            // Horizontal bar spanning all children
+            const minCX = Math.min(...childCenters, dropX);
+            const maxCX = Math.max(...childCenters, dropX);
+            svg.appendChild(svgEl('line', {
+                x1: minCX, y1: barY, x2: maxCX, y2: barY,
+                stroke: color, 'stroke-width': sw
+            }));
+            // Drop to each child
+            children.forEach((cid, i) => {
+                svg.appendChild(svgEl('line', {
+                    x1: childCenters[i], y1: barY, x2: childCenters[i], y2: childTops[i],
+                    stroke: color, 'stroke-width': sw
+                }));
+            });
+        }
+    });
+}
+
+function svgEl(tag, attrs) {
+    const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+    return el;
+}
+
+// ===================================================================
+//  INTERACTIONS
+// ===================================================================
+function selectPerson(id) {
+    selectedPerson = id;
+    render();
+    showDetail(id);
+}
+
+function showDetail(id) {
+    const p = people[id];
+    if (!p) return;
+
+    const panel = document.getElementById('detail-panel');
+    const content = document.getElementById('detail-content');
+
+    let html = '';
+    if (p.photo) html += `<img class="detail-photo" src="${p.photo}" alt="${p.name}">`;
+    html += `<div class="detail-name">${p.name}</div>`;
+    if (p.maiden) html += `<div class="detail-maiden">née ${p.maiden}</div>`;
+
+    html += `<div class="detail-section"><h3>Vital Information</h3>`;
+    if (p.birth) html += `<div class="detail-row"><span class="label">Born</span><span class="value">${p.birth}</span></div>`;
+    if (p.death) html += `<div class="detail-row"><span class="label">Died</span><span class="value">${p.death}</span></div>`;
+    if (p.occupation) html += `<div class="detail-row"><span class="label">Occupation</span><span class="value">${p.occupation}</span></div>`;
+    if (p.location) html += `<div class="detail-row"><span class="label">Location</span><span class="value">${p.location}</span></div>`;
+    if (p.marriage) html += `<div class="detail-row"><span class="label">Marriage</span><span class="value">${p.marriage}</span></div>`;
+    html += `</div>`;
+
+    if (p.notes) html += `<div class="detail-section"><h3>Story</h3><div class="story-box">${p.notes}</div></div>`;
+
+    // Spouse(s)
+    const spouseIds = marriages.filter(m => m.includes(id)).map(m => m[0] === id ? m[1] : m[0]);
+    if (spouseIds.length) {
+        html += `<div class="detail-section"><h3>Spouse(s)</h3><div class="family-links">`;
+        spouseIds.forEach(sid => { const s = people[sid]; if (s) html += `<div class="family-link" onclick="selectPerson('${sid}')">${s.name}</div>`; });
+        html += `</div></div>`;
+    }
+
+    // Parents
+    const parentFams = families.filter(f => f.children.includes(id));
+    if (parentFams.length) {
+        html += `<div class="detail-section"><h3>Parents</h3><div class="family-links">`;
+        parentFams.forEach(f => {
+            (f.couple || [f.parent]).forEach(pid => {
+                const pp = people[pid]; if (pp) html += `<div class="family-link" onclick="selectPerson('${pid}')">${pp.name}</div>`;
+            });
+        });
+        html += `</div></div>`;
+    }
+
+    // Children
+    const childFams = families.filter(f => (f.couple && f.couple.includes(id)) || f.parent === id);
+    const childIds = [...new Set(childFams.flatMap(f => f.children))];
+    if (childIds.length) {
+        html += `<div class="detail-section"><h3>Children</h3><div class="family-links">`;
+        childIds.forEach(cid => { const c = people[cid]; if (c) html += `<div class="family-link" onclick="selectPerson('${cid}')">${c.name}</div>`; });
+        html += `</div></div>`;
+    }
+
+    // Siblings
+    const sibFams = families.filter(f => f.children.includes(id));
+    const sibIds = [...new Set(sibFams.flatMap(f => f.children))].filter(s => s !== id);
+    if (sibIds.length) {
+        html += `<div class="detail-section"><h3>Siblings</h3><div class="family-links">`;
+        sibIds.forEach(sid => { const s = people[sid]; if (s) html += `<div class="family-link" onclick="selectPerson('${sid}')">${s.name}</div>`; });
+        html += `</div></div>`;
+    }
+
+    content.innerHTML = html;
+    panel.classList.add('open');
+}
+
+function closeDetail() {
+    document.getElementById('detail-panel').classList.remove('open');
+    selectedPerson = null;
+    render();
+}
+
+function searchPeople(query) {
+    if (!query) { document.querySelectorAll('.person-card').forEach(el => el.style.opacity = '1'); return; }
+    const q = query.toLowerCase();
+    document.querySelectorAll('.person-card').forEach(el => {
+        const p = people[el.dataset.id];
+        const s = [p.name, p.maiden, p.notes, p.location, p.occupation].filter(Boolean).join(' ').toLowerCase();
+        el.style.opacity = s.includes(q) ? '1' : '0.12';
+    });
+}
+
+// ===================================================================
+//  PAN & ZOOM
+// ===================================================================
+function updateTransform() {
+    document.getElementById('tree-canvas').style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+}
+function zoomIn() { scale = Math.min(scale * 1.2, 2); updateTransform(); }
+function zoomOut() { scale = Math.max(scale / 1.2, 0.15); updateTransform(); }
+function resetZoom() { scale = 0.52; panX = 80; panY = 10; updateTransform(); }
+
+const wrapper = document.getElementById('canvas-wrapper');
+wrapper.addEventListener('mousedown', e => { if (e.target.closest('.person-card')) return; isDragging = true; dragStartX = e.clientX - panX; dragStartY = e.clientY - panY; });
+wrapper.addEventListener('mousemove', e => { if (!isDragging) return; panX = e.clientX - dragStartX; panY = e.clientY - dragStartY; updateTransform(); });
+wrapper.addEventListener('mouseup', () => isDragging = false);
+wrapper.addEventListener('mouseleave', () => isDragging = false);
+wrapper.addEventListener('wheel', e => {
+    e.preventDefault();
+    const d = e.deltaY > 0 ? 0.9 : 1.1;
+    const r = wrapper.getBoundingClientRect();
+    const mx = e.clientX - r.left, my = e.clientY - r.top;
+    const ns = Math.max(0.15, Math.min(2, scale * d));
+    panX = mx - (mx - panX) * (ns / scale);
+    panY = my - (my - panY) * (ns / scale);
+    scale = ns;
+    updateTransform();
+}, { passive: false });
+
+let lastTouchDist = 0;
+wrapper.addEventListener('touchstart', e => {
+    if (e.touches.length === 1) { isDragging = true; dragStartX = e.touches[0].clientX - panX; dragStartY = e.touches[0].clientY - panY; }
+    else if (e.touches.length === 2) lastTouchDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+});
+wrapper.addEventListener('touchmove', e => {
+    e.preventDefault();
+    if (e.touches.length === 1 && isDragging) { panX = e.touches[0].clientX - dragStartX; panY = e.touches[0].clientY - dragStartY; updateTransform(); }
+    else if (e.touches.length === 2) { const d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY); scale = Math.max(0.15, Math.min(2, scale * (d / lastTouchDist))); lastTouchDist = d; updateTransform(); }
+}, { passive: false });
+wrapper.addEventListener('touchend', () => isDragging = false);
+
+// ===================================================================
+//  VIEW TOGGLES
+// ===================================================================
+function toggleView(view) {
+    document.getElementById('migration-overlay').classList.remove('show');
+    document.getElementById('stats-overlay').classList.remove('show');
+    document.getElementById('canvas-wrapper').style.display = 'block';
+    document.querySelectorAll('.header-controls button').forEach(b => b.classList.remove('active'));
+    if (view === 'migration') {
+        document.getElementById('migration-overlay').classList.add('show');
+        document.getElementById('canvas-wrapper').style.display = 'none';
+        document.getElementById('btn-migration').classList.add('active');
+    } else if (view === 'stats') {
+        document.getElementById('stats-overlay').classList.add('show');
+        document.getElementById('canvas-wrapper').style.display = 'none';
+        document.getElementById('btn-stats').classList.add('active');
+        renderStats();
+    } else {
+        document.getElementById('btn-tree').classList.add('active');
+    }
+}
+
+function renderStats() {
+    document.getElementById('stats-grid').innerHTML = `
+        <div class="stat-card"><div class="stat-number">${Object.keys(people).length}</div><div class="stat-label">Family Members</div></div>
+        <div class="stat-card"><div class="stat-number">6</div><div class="stat-label">Generations Traced</div></div>
+        <div class="stat-card"><div class="stat-number">3</div><div class="stat-label">Countries of Origin</div></div>
+        <div class="stat-card"><div class="stat-number">${marriages.length}</div><div class="stat-label">Marriages</div></div>
+    `;
+    const timeline = document.getElementById('timeline');
+    timeline.innerHTML = '<h2 style="text-align:center;color:#f0d9a0;font-family:Playfair Display,serif;margin:30px 0">Key Events</h2>';
+    [...timelineEvents].sort((a, b) => (parseInt(a.year.replace(/\D/g, '')) || 0) - (parseInt(b.year.replace(/\D/g, '')) || 0))
+        .forEach(ev => {
+            const d = document.createElement('div');
+            d.className = 'timeline-event';
+            d.innerHTML = `<div class="event-dot"></div><div class="event-card"><div class="event-year">${ev.year}</div><div class="event-text">${ev.text}</div></div>`;
+            timeline.appendChild(d);
+        });
+}
+
+// ===================================================================
+//  INIT
+// ===================================================================
+render();
+</script>
+</body>
+</html>

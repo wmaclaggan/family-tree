@@ -257,6 +257,10 @@
         .child-card:active { border-color: #c9a96e; }
         .child-card.male { border-left: 3px solid #4a90d9; }
         .child-card.female { border-left: 3px solid #d94a8a; }
+        .child-card-photo {
+            width: 40px; height: 48px; min-width: 40px; border-radius: 6px;
+            object-fit: cover; border: 1px solid #3a3a5a; margin-right: 10px;
+        }
         .child-card-info { flex: 1; }
         .child-card-name {
             font-family: 'Playfair Display', serif;
@@ -1521,6 +1525,7 @@ function renderMobileChildren(personId) {
             if (childCount > 0) badges.push(childCount + (childCount === 1 ? ' child' : ' children'));
 
             html += `<div class="child-card ${c.gender}" onclick="mobileNavigateTo('${cid}')">`;
+            if (c.photo) html += `<img class="child-card-photo" src="${c.photo}" alt="${c.name}">`;
             html += '<div class="child-card-info">';
             html += `<div class="child-card-name">${c.name}</div>`;
             if (meta.length) html += `<div class="child-card-meta">${meta.join(' &middot; ')}</div>`;

@@ -916,11 +916,13 @@ function render() {
         html += `<div class="card-info">`;
         html += `<div class="name">${p.name}</div>`;
         if (p.maiden) html += `<div class="maiden">née ${p.maiden}</div>`;
-        const dates = [];
-        if (p.birth) dates.push('b. ' + p.birth);
-        if (p.death) dates.push('d. ' + p.death);
-        if (dates.length) html += `<div class="dates">${dates.join(' · ')}</div>`;
-        if (p.occupation) html += `<div class="occ-tag">${p.occupation}</div>`;
+        const birthYear = p.birth ? p.birth.match(/\d{4}/) : null;
+        const deathYear = p.death ? p.death.match(/\d{4}/) : null;
+        if (birthYear && deathYear) {
+            html += `<div class="dates">${birthYear[0]} – ${deathYear[0]}</div>`;
+        } else if (birthYear) {
+            html += `<div class="dates">b. ${birthYear[0]}</div>`;
+        }
         html += `</div>`;
 
         el.innerHTML = html;

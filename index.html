@@ -281,6 +281,34 @@
             padding: 12px; font-size: 0.78rem; color: #aaa; line-height: 1.6;
             font-style: italic; margin-top: 10px;
         }
+        .ancestor-row {
+            display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
+        }
+        .ancestor-card {
+            background: linear-gradient(145deg, #1e2a45, #1a2340);
+            border: 1px solid #2a3a5a; border-radius: 8px;
+            padding: 8px 12px; text-align: center; cursor: pointer;
+            flex: 1; min-width: 0; max-width: 48%;
+            transition: border-color 0.2s;
+        }
+        .ancestor-card:active { border-color: #c9a96e; }
+        .ancestor-card.male { border-top: 2px solid #4a90d9; }
+        .ancestor-card.female { border-top: 2px solid #d94a8a; }
+        .ancestor-card.parent-card { padding: 10px 12px; }
+        .ancestor-photo {
+            width: 40px; height: 48px; border-radius: 6px;
+            object-fit: cover; margin: 0 auto 4px; display: block;
+            border: 1px solid #3a3a5a;
+        }
+        .ancestor-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.75rem; color: #f0d9a0; font-weight: 700; line-height: 1.2;
+        }
+        .ancestor-meta { font-size: 0.62rem; color: #8899aa; margin-top: 2px; }
+        .ancestor-connector {
+            width: 2px; height: 16px; background: #3a3a5a;
+            margin: 0 auto;
+        }
 
         @media (max-width: 767px) {
             body { overflow: hidden; }
@@ -327,10 +355,10 @@
         <span class="sib-indicator" id="sib-indicator"></span>
         <button class="sib-arrow" id="sib-next" onclick="mobileSibNext()">&rsaquo;</button>
     </div>
+    <div id="mobile-ancestors"></div>
     <div id="mobile-focus"></div>
-    <div id="mobile-children"></div>
-    <div id="mobile-parents"></div>
     <div id="mobile-notes"></div>
+    <div id="mobile-children"></div>
 </div>
 
 <div id="detail-panel">
@@ -1343,10 +1371,10 @@ function mobileNavigateTo(personId) {
 
     renderMobileBreadcrumb(personId);
     renderMobileSiblings();
+    renderMobileAncestors(personId);
     renderMobileFocus(personId);
-    renderMobileChildren(personId);
-    renderMobileParents(personId);
     renderMobileNotes(personId);
+    renderMobileChildren(personId);
 
     // Scroll to top
     document.getElementById('mobile-view').scrollTop = 0;
@@ -1505,8 +1533,8 @@ function renderMobileChildren(personId) {
     container.innerHTML = html;
 }
 
-function renderMobileParents(personId) {
-    const container = document.getElementById('mobile-parents');
+function renderMobileAncestors(personId) {
+    const container = document.getElementById('mobile-ancestors');
     const parentIds = getParents(personId);
 
     if (parentIds.length === 0) {
@@ -1514,16 +1542,50 @@ function renderMobileParents(personId) {
         return;
     }
 
-    let html = '<div class="mobile-section"><div class="mobile-section-title">Parents</div>';
+    let html = '';
+
+    // Grandparents (parents of parents)
+    const grandparentSets = [];
+    parentIds.forEach(pid => {
+        const gps = getParents(pid);
+        if (gps.length > 0) grandparentSets.push(gps);
+    });
+    // Deduplicate grandparent pairs
+    const allGrandparents = [...new Set(grandparentSets.flat())];
+    if (allGrandparents.length > 0) {
+        html += '<div class="mobile-section"><div class="mobile-section-title">Grandparents</div>';
+        html += '<div class="ancestor-row">';
+        allGrandparents.forEach(gid => {
+            const gp = people[gid];
+            if (!gp) return;
+            const dates = formatDates(gp);
+            html += `<div class="ancestor-card ${gp.gender}" onclick="mobileNavigateTo('${gid}')">`;
+            html += `<div class="ancestor-name">${gp.name}</div>`;
+            if (dates) html += `<div class="ancestor-meta">${dates}</div>`;
+            html += '</div>';
+        });
+        html += '</div></div>';
+    }
+
+    // Parents
+    html += '<div class="mobile-section"><div class="mobile-section-title">Parents</div>';
+    html += '<div class="ancestor-row">';
     parentIds.forEach(pid => {
         const pp = people[pid];
         if (!pp) return;
-        html += `<div class="parent-link" onclick="mobileNavigateTo('${pid}')">`;
-        html += `<span class="parent-link-text">${pp.name}</span>`;
-        html += '<span class="parent-link-arrow">&rsaquo;</span>';
+        const dates = formatDates(pp);
+        html += `<div class="ancestor-card parent-card ${pp.gender}" onclick="mobileNavigateTo('${pid}')">`;
+        if (pp.photo) html += `<img class="ancestor-photo" src="${pp.photo}" alt="${pp.name}">`;
+        html += `<div class="ancestor-name">${pp.name}</div>`;
+        if (dates) html += `<div class="ancestor-meta">${dates}</div>`;
+        if (pp.location) html += `<div class="ancestor-meta">${pp.location}</div>`;
         html += '</div>';
     });
-    html += '</div>';
+    html += '</div></div>';
+
+    // Connector line between parents and focus
+    html += '<div class="ancestor-connector"></div>';
+
     container.innerHTML = html;
 }
 

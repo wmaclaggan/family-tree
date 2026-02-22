@@ -169,6 +169,134 @@
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #1a1a2e; }
         ::-webkit-scrollbar-thumb { background: #2a3a5a; border-radius: 3px; }
+
+        /* ============= MOBILE VIEW ============= */
+        #mobile-view { display: none; }
+
+        #mobile-view.active {
+            display: block;
+            position: fixed; top: 60px; left: 0; right: 0; bottom: 0;
+            overflow-y: auto; -webkit-overflow-scrolling: touch;
+            background: #1a1a2e; padding: 0 0 80px;
+        }
+        #mobile-breadcrumb {
+            display: flex; align-items: center; gap: 4px;
+            padding: 10px 16px; overflow-x: auto; white-space: nowrap;
+            font-size: 0.72rem; border-bottom: 1px solid #2a2a4a;
+        }
+        .crumb { color: #888; cursor: pointer; padding: 3px 6px; border-radius: 4px; }
+        .crumb:active { background: #2a2a4a; }
+        .crumb.active { color: #f0d9a0; }
+        .crumb-sep { color: #555; font-size: 0.65rem; }
+        #sibling-nav {
+            display: flex; align-items: center; justify-content: center;
+            gap: 16px; padding: 10px 0; border-bottom: 1px solid #2a2a4a;
+        }
+        .sib-arrow {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: #2a2a4a; border: 1px solid #3a3a5a;
+            color: #ccc; font-size: 1.4rem;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+        }
+        .sib-arrow:active { background: #c9a96e; color: #1a1a2e; }
+        .sib-arrow:disabled { opacity: 0.3; }
+        .sib-indicator { color: #888; font-size: 0.78rem; min-width: 100px; text-align: center; }
+        #mobile-focus {
+            padding: 16px; transition: opacity 0.2s;
+        }
+        .focus-couple {
+            display: flex; gap: 8px; justify-content: center; align-items: stretch;
+        }
+        .focus-person {
+            flex: 1; max-width: 48%;
+            background: linear-gradient(145deg, #1e2a45, #1a2340);
+            border: 2px solid #2a3a5a; border-radius: 12px;
+            padding: 14px; text-align: center; cursor: pointer;
+        }
+        .focus-person.male { border-top: 3px solid #4a90d9; }
+        .focus-person.female { border-top: 3px solid #d94a8a; }
+        .focus-person.single { max-width: 60%; }
+        .focus-person .focus-photo {
+            width: 72px; height: 88px; border-radius: 8px;
+            object-fit: cover; margin: 0 auto 8px; display: block;
+            border: 1px solid #3a3a5a;
+        }
+        .focus-person .focus-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.95rem; color: #f0d9a0; font-weight: 700; line-height: 1.3;
+        }
+        .focus-person .focus-maiden { font-size: 0.7rem; color: #999; font-style: italic; }
+        .focus-person .focus-dates { font-size: 0.72rem; color: #8899aa; margin-top: 4px; }
+        .focus-person .focus-location { font-size: 0.68rem; color: #7788aa; margin-top: 2px; }
+        .focus-marriage-ind {
+            display: flex; align-items: center; justify-content: center;
+            width: 24px; flex-shrink: 0;
+        }
+        .focus-marriage-ind .diamond {
+            width: 10px; height: 10px; background: #c9a96e;
+            transform: rotate(45deg); opacity: 0.6;
+        }
+        .focus-marriage-ind .divorce-x { color: #b07070; font-size: 1rem; font-weight: 700; }
+        .mobile-section {
+            padding: 0 16px; margin-top: 16px;
+        }
+        .mobile-section-title {
+            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px;
+            color: #c9a96e; margin-bottom: 8px; padding-bottom: 4px;
+            border-bottom: 1px solid #2a2a4a;
+        }
+        .mobile-section-subtitle {
+            font-size: 0.65rem; color: #777; margin-bottom: 6px; font-style: italic;
+        }
+        .child-card {
+            display: flex; align-items: center; justify-content: space-between;
+            background: #1e2a45; border: 1px solid #2a3a5a;
+            border-radius: 10px; padding: 12px 14px; margin-bottom: 8px;
+            cursor: pointer; transition: border-color 0.2s;
+        }
+        .child-card:active { border-color: #c9a96e; }
+        .child-card.male { border-left: 3px solid #4a90d9; }
+        .child-card.female { border-left: 3px solid #d94a8a; }
+        .child-card-info { flex: 1; }
+        .child-card-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.88rem; color: #f0d9a0;
+        }
+        .child-card-meta { font-size: 0.68rem; color: #8899aa; margin-top: 2px; }
+        .child-card-badge {
+            font-size: 0.6rem; color: #aaa; background: #2a2a4a;
+            border-radius: 4px; padding: 2px 7px; margin-top: 4px; display: inline-block;
+        }
+        .child-card-arrow { color: #c9a96e; font-size: 1.2rem; padding-left: 8px; }
+        .parent-link {
+            display: flex; align-items: center; gap: 8px;
+            background: #1e2a45; border: 1px solid #2a3a5a;
+            border-radius: 10px; padding: 12px 14px; cursor: pointer;
+        }
+        .parent-link:active { border-color: #c9a96e; }
+        .parent-link-text { flex: 1; font-size: 0.85rem; color: #ccc; }
+        .parent-link-arrow { color: #c9a96e; font-size: 1rem; }
+        .focus-notes {
+            background: #12192e; border: 1px solid #2a2a4a; border-radius: 8px;
+            padding: 12px; font-size: 0.78rem; color: #aaa; line-height: 1.6;
+            font-style: italic; margin-top: 10px;
+        }
+
+        @media (max-width: 767px) {
+            body { overflow: hidden; }
+            #header { padding: 8px 12px; }
+            #header h1 { font-size: 1rem; }
+            #header .subtitle { display: none; }
+            .header-controls { gap: 4px; }
+            .header-controls button { padding: 4px 8px; font-size: 0.7rem; }
+            #search-box { width: 100px; font-size: 0.72rem; padding: 5px 8px; }
+            #canvas-wrapper { display: none !important; }
+            .zoom-controls { display: none !important; }
+            #legend { display: none !important; }
+            #detail-panel { display: none !important; }
+            #mobile-view { display: block !important; }
+            #mobile-view.active { top: 52px; }
+        }
     </style>
 </head>
 <body>
@@ -190,6 +318,19 @@
     <div id="tree-canvas">
         <svg id="connections-svg"></svg>
     </div>
+</div>
+
+<div id="mobile-view">
+    <div id="mobile-breadcrumb"></div>
+    <div id="sibling-nav">
+        <button class="sib-arrow" id="sib-prev" onclick="mobileSibPrev()">&lsaquo;</button>
+        <span class="sib-indicator" id="sib-indicator"></span>
+        <button class="sib-arrow" id="sib-next" onclick="mobileSibNext()">&rsaquo;</button>
+    </div>
+    <div id="mobile-focus"></div>
+    <div id="mobile-children"></div>
+    <div id="mobile-parents"></div>
+    <div id="mobile-notes"></div>
 </div>
 
 <div id="detail-panel">
@@ -318,7 +459,7 @@ const people = {
     edwin_long:       { name: 'Edwin Bishop Long', gender: 'male', birth: 'Sept 25, 1921', location: 'Phoenix, Arizona', photo: 'photos/Eddie Long.JPG' },
 
     // --- Gen 6: Children of Jim & Martha ---
-    jamie_maclaggan:   { name: 'Jamie MacLaggan', gender: 'male', birth: 'Jan 2, 1945', location: 'Austin, TX', notes: 'Divorced from Cathy.' },
+    jamie_maclaggan:   { name: 'Jamie MacLaggan', gender: 'male', birth: 'Jan 2, 1945', location: 'Austin, TX', notes: 'Previously married to Kitty. Divorced from Cathy.' },
     gregory_maclaggan: { name: 'Gregory Scott MacLaggan', gender: 'male', birth: 'Feb 14, 1946', location: 'San Diego, CA', notes: 'Divorced from Robin Tharp.' },
     chuck_maclaggan:   { name: 'Chuck MacLaggan', gender: 'male', birth: 'Sept 5, 1947', location: 'San Diego, CA' },
     ran_clark:         { name: 'Ran Clark', maiden: 'MacLaggan', gender: 'female', birth: 'Dec 11, 1948', location: 'Woodbridge, CA' },
@@ -329,6 +470,7 @@ const people = {
 
     // --- Gen 6: Spouses ---
     cathy_maclaggan:     { name: 'Cathy MacLaggan', gender: 'female', birth: 'Mar 2, 1952', location: 'Austin, TX', notes: 'Divorced from Jamie.' },
+    kitty_maclaggan:     { name: 'Kitty', gender: 'female', notes: 'Previously married to Jamie MacLaggan.' },
     pat_maclaggan:       { name: 'Pat MacLaggan', gender: 'female', birth: 'May 21, 1951' },
     paul_fuhrman:        { name: 'Paul Fuhrman', gender: 'male', birth: 'Sept 4, 1950' },
     bruce_austin:        { name: 'Bruce Austin', gender: 'male' },
@@ -391,7 +533,7 @@ const people = {
 
     // --- Gen 8: Chuck's grandchildren ---
     wolfgang_maclaggan: { name: 'Wolf Stanley MacLaggan', gender: 'male', birth: '2017-02-20' },
-    eli_maclaggan:      { name: 'Eli MacLaggan', gender: 'male' },
+    eli_maclaggan:      { name: 'Elijah Charles MacLaggan', gender: 'male', birth: 'Sep 7, 2014' },
 
     // --- Gen 8: Carol's grandchildren ---
     giada_coldani:    { name: 'Giada Michela Coldani', gender: 'female', birth: 'Jan 22, 2009' },
@@ -434,6 +576,7 @@ const marriages = [
     ['iva_long', 'john_long'],
     ['jim_maclaggan', 'martha_maclaggan'],
     // Gen 6 marriages
+    ['jamie_maclaggan', 'kitty_maclaggan'],
     ['jamie_maclaggan', 'cathy_maclaggan'],
     ['chuck_maclaggan', 'pat_maclaggan'],
     ['carol_fuhrman', 'paul_fuhrman'],
@@ -456,6 +599,14 @@ const marriages = [
     ['christi_harris', 'tyler_harris'],
 ];
 
+// Divorced couples (shown with different visual indicator)
+const divorcedCouples = new Set([
+    'jamie_maclaggan+kitty_maclaggan',
+    'jamie_maclaggan+cathy_maclaggan',
+    'gregory_maclaggan+robin_tharp',
+    'colin_maclaggan+estela_maclaggan',
+]);
+
 // Families (couple → children)
 const families = [
     { couple: ['cc_wooley', 'martha_wooley'], children: ['martha_gunter'] },
@@ -470,7 +621,8 @@ const families = [
     { couple: ['jim_maclaggan', 'martha_maclaggan'], children: ['jamie_maclaggan', 'gregory_maclaggan', 'chuck_maclaggan', 'ran_clark', 'carol_fuhrman', 'mickey_austin', 'peter_maclaggan', 'chris_maclaggan'] },
 
     // --- Gen 7: Children of Gen 6 ---
-    { couple: ['jamie_maclaggan', 'cathy_maclaggan'], children: ['andrew_maclaggan', 'corrie_maclaggan', 'michael_maclaggan'] },
+    { couple: ['jamie_maclaggan', 'kitty_maclaggan'], children: ['andrew_maclaggan'] },
+    { couple: ['jamie_maclaggan', 'cathy_maclaggan'], children: ['corrie_maclaggan', 'michael_maclaggan'] },
     { parent: 'gregory_maclaggan', children: ['wes_maclaggan'] },
     { couple: ['chuck_maclaggan', 'pat_maclaggan'], children: ['brian_maclaggan', 'colin_maclaggan'] },
     { couple: ['carol_fuhrman', 'paul_fuhrman'], children: ['julie_coldani', 'matt_fuhrman'] },
@@ -544,6 +696,7 @@ const pos = {
 
     // --- Row 5 (Gen 6): MacLaggan siblings + spouses ---
     // Each sibling centered above their descendant column
+    kitty_maclaggan:   [146,  ROW[5]],
     jamie_maclaggan:   [338,  ROW[5]],   // col center 519
     cathy_maclaggan:   [530,  ROW[5]],
     gregory_maclaggan: [1386, ROW[5]],   // col center 1471
@@ -772,6 +925,8 @@ function drawConnections(svg) {
         const [x2, y2] = pos[id2];
         if (Math.abs(y1 - y2) > 10) return; // skip if not on same row (Elias+Annie handled separately)
 
+        const isDivorced = divorcedCouples.has(`${id1}+${id2}`) || divorcedCouples.has(`${id2}+${id1}`);
+
         // Determine which is left and right
         const leftId = x1 < x2 ? id1 : id2;
         const rightId = x1 < x2 ? id2 : id1;
@@ -780,16 +935,30 @@ function drawConnections(svg) {
         const rx = pos[rightId][0];
         const ry = pos[rightId][1] + CH / 2;
 
+        const lineColor = isDivorced ? '#b07070' : '#c9a96e';
         svg.appendChild(svgEl('line', {
             x1: lx, y1: ly, x2: rx, y2: ry,
-            stroke: '#c9a96e', 'stroke-width': 2, 'stroke-dasharray': '6 4', opacity: 0.6
+            stroke: lineColor, 'stroke-width': 2, 'stroke-dasharray': '6 4', opacity: isDivorced ? 0.5 : 0.6
         }));
-        // Diamond at midpoint
         const mx = (lx + rx) / 2, my = (ly + ry) / 2;
-        svg.appendChild(svgEl('polygon', {
-            points: `${mx},${my-5} ${mx+5},${my} ${mx},${my+5} ${mx-5},${my}`,
-            fill: '#c9a96e', opacity: 0.5
-        }));
+        if (isDivorced) {
+            // X mark at midpoint for divorced couples
+            const s = 5;
+            svg.appendChild(svgEl('line', {
+                x1: mx - s, y1: my - s, x2: mx + s, y2: my + s,
+                stroke: '#b07070', 'stroke-width': 2.5, opacity: 0.7
+            }));
+            svg.appendChild(svgEl('line', {
+                x1: mx + s, y1: my - s, x2: mx - s, y2: my + s,
+                stroke: '#b07070', 'stroke-width': 2.5, opacity: 0.7
+            }));
+        } else {
+            // Diamond at midpoint for current marriages
+            svg.appendChild(svgEl('polygon', {
+                points: `${mx},${my-5} ${mx+5},${my} ${mx},${my+5} ${mx-5},${my}`,
+                fill: '#c9a96e', opacity: 0.5
+            }));
+        }
     });
 
     // --- Elias ↔ Annie special marriage line (different positions) ---
@@ -953,6 +1122,17 @@ function closeDetail() {
 }
 
 function searchPeople(query) {
+    if (isMobile()) {
+        // Mobile: find first match and navigate to them
+        if (!query || query.length < 2) return;
+        const q = query.toLowerCase();
+        for (const id in people) {
+            const p = people[id];
+            const s = [p.name, p.maiden, p.notes, p.location, p.occupation].filter(Boolean).join(' ').toLowerCase();
+            if (s.includes(q)) { mobileNavigateTo(id); return; }
+        }
+        return;
+    }
     if (!query) { document.querySelectorAll('.person-card').forEach(el => el.style.opacity = '1'); return; }
     const q = query.toLowerCase();
     document.querySelectorAll('.person-card').forEach(el => {
@@ -992,8 +1172,8 @@ wrapper.addEventListener('wheel', e => {
 let lastTouchDist = 0;
 wrapper.addEventListener('touchstart', e => {
     if (e.touches.length === 1) { isDragging = true; dragStartX = e.touches[0].clientX - panX; dragStartY = e.touches[0].clientY - panY; }
-    else if (e.touches.length === 2) lastTouchDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
-});
+    else if (e.touches.length === 2) { e.preventDefault(); lastTouchDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY); }
+}, { passive: false });
 wrapper.addEventListener('touchmove', e => {
     e.preventDefault();
     if (e.touches.length === 1 && isDragging) { panX = e.touches[0].clientX - dragStartX; panY = e.touches[0].clientY - dragStartY; updateTransform(); }
@@ -1007,15 +1187,22 @@ wrapper.addEventListener('touchend', () => isDragging = false);
 function toggleView(view) {
     document.getElementById('migration-overlay').classList.remove('show');
     document.getElementById('stats-overlay').classList.remove('show');
-    document.getElementById('canvas-wrapper').style.display = 'block';
+    const mv = document.getElementById('mobile-view');
+    if (isMobile()) {
+        mv.classList.add('active');
+    } else {
+        document.getElementById('canvas-wrapper').style.display = 'block';
+    }
     document.querySelectorAll('.header-controls button').forEach(b => b.classList.remove('active'));
     if (view === 'migration') {
         document.getElementById('migration-overlay').classList.add('show');
-        document.getElementById('canvas-wrapper').style.display = 'none';
+        if (isMobile()) mv.classList.remove('active');
+        else document.getElementById('canvas-wrapper').style.display = 'none';
         document.getElementById('btn-migration').classList.add('active');
     } else if (view === 'stats') {
         document.getElementById('stats-overlay').classList.add('show');
-        document.getElementById('canvas-wrapper').style.display = 'none';
+        if (isMobile()) mv.classList.remove('active');
+        else document.getElementById('canvas-wrapper').style.display = 'none';
         document.getElementById('btn-stats').classList.add('active');
         renderStats();
     } else {
@@ -1042,9 +1229,394 @@ function renderStats() {
 }
 
 // ===================================================================
+//  MOBILE VIEW
+// ===================================================================
+const mobileNav = {
+    focusId: null,
+    siblings: [],
+    sibIndex: 0,
+};
+
+function isMobile() { return window.innerWidth < 768; }
+
+function getSpouses(id) {
+    return marriages.filter(m => m.includes(id)).map(m => {
+        const sid = m[0] === id ? m[1] : m[0];
+        const key1 = `${id}+${sid}`, key2 = `${sid}+${id}`;
+        return { id: sid, isDivorced: divorcedCouples.has(key1) || divorcedCouples.has(key2) };
+    });
+}
+
+function getChildrenByMarriage(id) {
+    const result = [];
+    const seen = new Set();
+    families.forEach(f => {
+        if (f.couple && f.couple.includes(id)) {
+            const spouseId = f.couple[0] === id ? f.couple[1] : f.couple[0];
+            const key1 = `${id}+${spouseId}`, key2 = `${spouseId}+${id}`;
+            const isDivorced = divorcedCouples.has(key1) || divorcedCouples.has(key2);
+            result.push({ spouseId, isDivorced, children: f.children });
+            f.children.forEach(c => seen.add(c));
+        } else if (f.parent === id) {
+            result.push({ spouseId: null, isDivorced: false, children: f.children.filter(c => !seen.has(c)) });
+            f.children.forEach(c => seen.add(c));
+        }
+    });
+    return result.filter(g => g.children.length > 0);
+}
+
+function getParents(id) {
+    const parents = [];
+    families.forEach(f => {
+        if (f.children.includes(id)) {
+            if (f.couple) f.couple.forEach(p => parents.push(p));
+            else if (f.parent) parents.push(f.parent);
+        }
+    });
+    return parents;
+}
+
+function getSiblings(id) {
+    const sibs = new Set();
+    families.forEach(f => {
+        if (f.children.includes(id)) f.children.forEach(c => sibs.add(c));
+    });
+    sibs.delete(id);
+    return [...sibs];
+}
+
+function countDescendants(id) {
+    let count = 0;
+    families.forEach(f => {
+        const isParent = (f.couple && f.couple.includes(id)) || f.parent === id;
+        if (isParent) {
+            count += f.children.length;
+            f.children.forEach(c => { count += countDescendants(c); });
+        }
+    });
+    return count;
+}
+
+function hasOwnFamily(id) {
+    return families.some(f => (f.couple && f.couple.includes(id)) || f.parent === id);
+}
+
+function buildAncestryPath(id) {
+    const path = [];
+    let current = id;
+    const visited = new Set();
+    while (current && !visited.has(current)) {
+        visited.add(current);
+        path.unshift(current);
+        const parentFam = families.find(f => f.children.includes(current));
+        if (!parentFam) break;
+        current = parentFam.couple ? parentFam.couple[0] : parentFam.parent;
+    }
+    return path;
+}
+
+function formatDates(p) {
+    let s = '';
+    if (p.birth) s += 'b. ' + p.birth;
+    if (p.death) s += (s ? ' · ' : '') + 'd. ' + p.death;
+    return s;
+}
+
+function mobileNavigateTo(personId) {
+    const p = people[personId];
+    if (!p) return;
+
+    mobileNav.focusId = personId;
+
+    // Update URL hash
+    history.replaceState(null, '', '#person/' + personId);
+
+    // Build siblings
+    const parentFam = families.find(f => f.children.includes(personId));
+    if (parentFam) {
+        mobileNav.siblings = parentFam.children;
+        mobileNav.sibIndex = parentFam.children.indexOf(personId);
+    } else {
+        mobileNav.siblings = [personId];
+        mobileNav.sibIndex = 0;
+    }
+
+    renderMobileBreadcrumb(personId);
+    renderMobileSiblings();
+    renderMobileFocus(personId);
+    renderMobileChildren(personId);
+    renderMobileParents(personId);
+    renderMobileNotes(personId);
+
+    // Scroll to top
+    document.getElementById('mobile-view').scrollTop = 0;
+}
+
+function renderMobileBreadcrumb(personId) {
+    const bc = document.getElementById('mobile-breadcrumb');
+    const path = buildAncestryPath(personId);
+    let html = '';
+    path.forEach((pid, i) => {
+        const pp = people[pid];
+        if (!pp) return;
+        if (i > 0) html += '<span class="crumb-sep">&rsaquo;</span>';
+        const label = pp.name.split(' ')[0]; // first name only
+        const cls = pid === personId ? 'crumb active' : 'crumb';
+        html += `<span class="${cls}" onclick="mobileNavigateTo('${pid}')">${label}</span>`;
+    });
+    bc.innerHTML = html;
+    // Scroll breadcrumb to end
+    bc.scrollLeft = bc.scrollWidth;
+}
+
+function renderMobileSiblings() {
+    const indicator = document.getElementById('sib-indicator');
+    const prevBtn = document.getElementById('sib-prev');
+    const nextBtn = document.getElementById('sib-next');
+    const nav = document.getElementById('sibling-nav');
+
+    if (mobileNav.siblings.length <= 1) {
+        nav.style.display = 'none';
+        return;
+    }
+    nav.style.display = 'flex';
+    indicator.textContent = `${mobileNav.sibIndex + 1} of ${mobileNav.siblings.length} siblings`;
+    prevBtn.disabled = mobileNav.sibIndex === 0;
+    nextBtn.disabled = mobileNav.sibIndex === mobileNav.siblings.length - 1;
+}
+
+function mobileSibPrev() {
+    if (mobileNav.sibIndex > 0) {
+        mobileNavigateTo(mobileNav.siblings[mobileNav.sibIndex - 1]);
+    }
+}
+function mobileSibNext() {
+    if (mobileNav.sibIndex < mobileNav.siblings.length - 1) {
+        mobileNavigateTo(mobileNav.siblings[mobileNav.sibIndex + 1]);
+    }
+}
+
+function renderMobileFocus(personId) {
+    const container = document.getElementById('mobile-focus');
+    const p = people[personId];
+    const spouses = getSpouses(personId);
+
+    let html = '<div class="focus-couple">';
+
+    // Main person card
+    html += buildFocusCard(personId, p, spouses.length === 0);
+
+    // If has spouse(s), show the first/primary one
+    if (spouses.length > 0) {
+        const primary = spouses.find(s => !s.isDivorced) || spouses[0];
+        const sp = people[primary.id];
+        if (sp) {
+            html += `<div class="focus-marriage-ind">`;
+            if (primary.isDivorced) {
+                html += `<span class="divorce-x">&times;</span>`;
+            } else {
+                html += `<div class="diamond"></div>`;
+            }
+            html += `</div>`;
+            html += buildFocusCard(primary.id, sp, false);
+        }
+    }
+    html += '</div>';
+
+    // If multiple spouses, show additional marriages below
+    if (spouses.length > 1) {
+        html += '<div style="margin-top:8px; text-align:center;">';
+        spouses.forEach((s, i) => {
+            if (i === 0) return; // already shown as primary
+            const isFirst = !s.isDivorced && !spouses.slice(0, i).some(x => !x.isDivorced);
+            if (isFirst) return; // this is the primary shown above
+            const sp = people[s.id];
+            if (!sp) return;
+            const marker = s.isDivorced ? '<span style="color:#b07070">&times;</span>' : '<span style="color:#c9a96e">&#9830;</span>';
+            html += `<div style="font-size:0.72rem;color:#888;margin-top:4px;">${marker} Also married to <span style="color:#f0d9a0;cursor:pointer" onclick="mobileNavigateTo('${s.id}')">${sp.name}</span>${s.isDivorced ? ' (divorced)' : ''}</div>`;
+        });
+        html += '</div>';
+    }
+
+    container.innerHTML = html;
+}
+
+function buildFocusCard(id, p, isSingle) {
+    let html = `<div class="focus-person ${p.gender}${isSingle ? ' single' : ''}" onclick="mobileNavigateTo('${id}')">`;
+    if (p.photo) html += `<img class="focus-photo" src="${p.photo}" alt="${p.name}">`;
+    html += `<div class="focus-name">${p.name}</div>`;
+    if (p.maiden) html += `<div class="focus-maiden">n&eacute;e ${p.maiden}</div>`;
+    const dates = formatDates(p);
+    if (dates) html += `<div class="focus-dates">${dates}</div>`;
+    if (p.location) html += `<div class="focus-location">${p.location}</div>`;
+    html += '</div>';
+    return html;
+}
+
+function renderMobileChildren(personId) {
+    const container = document.getElementById('mobile-children');
+    const groups = getChildrenByMarriage(personId);
+
+    if (groups.length === 0) {
+        container.innerHTML = '';
+        return;
+    }
+
+    let html = '';
+    groups.forEach((g, gi) => {
+        html += '<div class="mobile-section">';
+        if (groups.length === 1) {
+            html += '<div class="mobile-section-title">Children</div>';
+        } else {
+            const sp = g.spouseId ? people[g.spouseId] : null;
+            const label = sp ? `Children with ${sp.name}` : 'Children';
+            html += `<div class="mobile-section-title">${label}</div>`;
+            if (g.isDivorced) html += '<div class="mobile-section-subtitle">divorced</div>';
+        }
+
+        g.children.forEach(cid => {
+            const c = people[cid];
+            if (!c) return;
+            const dates = formatDates(c);
+            const hasFamily = hasOwnFamily(cid);
+            const spouseList = getSpouses(cid);
+            const childCount = countDescendants(cid);
+
+            let meta = [];
+            if (dates) meta.push(dates);
+            if (c.location) meta.push(c.location);
+
+            let badges = [];
+            if (spouseList.length > 0) badges.push('married');
+            if (childCount > 0) badges.push(childCount + (childCount === 1 ? ' child' : ' children'));
+
+            html += `<div class="child-card ${c.gender}" onclick="mobileNavigateTo('${cid}')">`;
+            html += '<div class="child-card-info">';
+            html += `<div class="child-card-name">${c.name}</div>`;
+            if (meta.length) html += `<div class="child-card-meta">${meta.join(' &middot; ')}</div>`;
+            if (badges.length) html += `<div class="child-card-badge">${badges.join(' &middot; ')}</div>`;
+            html += '</div>';
+            if (hasFamily) html += '<div class="child-card-arrow">&rsaquo;</div>';
+            html += '</div>';
+        });
+        html += '</div>';
+    });
+
+    container.innerHTML = html;
+}
+
+function renderMobileParents(personId) {
+    const container = document.getElementById('mobile-parents');
+    const parentIds = getParents(personId);
+
+    if (parentIds.length === 0) {
+        container.innerHTML = '';
+        return;
+    }
+
+    let html = '<div class="mobile-section"><div class="mobile-section-title">Parents</div>';
+    parentIds.forEach(pid => {
+        const pp = people[pid];
+        if (!pp) return;
+        html += `<div class="parent-link" onclick="mobileNavigateTo('${pid}')">`;
+        html += `<span class="parent-link-text">${pp.name}</span>`;
+        html += '<span class="parent-link-arrow">&rsaquo;</span>';
+        html += '</div>';
+    });
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+function renderMobileNotes(personId) {
+    const container = document.getElementById('mobile-notes');
+    const p = people[personId];
+    // Also check spouse notes
+    const spouses = getSpouses(personId);
+    const primarySpouse = spouses.length > 0 ? (spouses.find(s => !s.isDivorced) || spouses[0]) : null;
+
+    let notes = '';
+    if (p.notes) notes += p.notes;
+    if (primarySpouse && people[primarySpouse.id] && people[primarySpouse.id].notes) {
+        if (notes) notes += ' ';
+        notes += people[primarySpouse.id].notes;
+    }
+    if (p.occupation) {
+        if (notes) notes += ' ';
+        notes += 'Occupation: ' + p.occupation;
+    }
+
+    if (!notes) {
+        container.innerHTML = '';
+        return;
+    }
+    container.innerHTML = `<div class="mobile-section"><div class="mobile-section-title">Notes</div><div class="focus-notes">${notes}</div></div>`;
+}
+
+function initMobileView() {
+    const mv = document.getElementById('mobile-view');
+    mv.classList.add('active');
+
+    // Check URL hash for deep link
+    const hash = window.location.hash;
+    if (hash.startsWith('#person/')) {
+        const pid = hash.substring(8);
+        if (people[pid]) {
+            mobileNavigateTo(pid);
+            return;
+        }
+    }
+    // Default: start at Jim MacLaggan
+    mobileNavigateTo('jim_maclaggan');
+}
+
+// Mobile swipe gesture on focus area
+let mTouchStartX = 0;
+document.getElementById('mobile-focus').addEventListener('touchstart', e => {
+    mTouchStartX = e.touches[0].clientX;
+});
+document.getElementById('mobile-focus').addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - mTouchStartX;
+    if (Math.abs(dx) > 60 && mobileNav.siblings.length > 1) {
+        if (dx > 0) mobileSibPrev();
+        else mobileSibNext();
+    }
+});
+
+// Mobile search integration
+function mobileSearchNavigate(id) {
+    if (isMobile()) {
+        mobileNavigateTo(id);
+    }
+}
+
+// ===================================================================
 //  INIT
 // ===================================================================
-render();
+if (isMobile()) {
+    initMobileView();
+} else {
+    render();
+}
+// Handle resize between mobile/desktop
+window.addEventListener('resize', () => {
+    const mv = document.getElementById('mobile-view');
+    if (isMobile()) {
+        if (!mv.classList.contains('active')) initMobileView();
+    } else {
+        mv.classList.remove('active');
+        render();
+    }
+});
+// Handle back/forward with hash
+window.addEventListener('hashchange', () => {
+    if (isMobile()) {
+        const hash = window.location.hash;
+        if (hash.startsWith('#person/')) {
+            const pid = hash.substring(8);
+            if (people[pid]) mobileNavigateTo(pid);
+        }
+    }
+});
 </script>
 </body>
 </html>

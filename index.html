@@ -318,8 +318,8 @@ const people = {
     edwin_long:       { name: 'Edwin Bishop Long', gender: 'male', birth: 'Sept 25, 1921', location: 'Phoenix, Arizona', photo: 'photos/Eddie Long.JPG' },
 
     // --- Gen 6: Children of Jim & Martha ---
-    jamie_maclaggan:   { name: 'Jamie MacLaggan', gender: 'male', birth: 'Jan 2, 1945', location: 'Austin, TX' },
-    gregory_maclaggan: { name: 'Gregory Scott MacLaggan', gender: 'male', birth: 'Feb 14, 1946', location: 'San Diego, CA' },
+    jamie_maclaggan:   { name: 'Jamie MacLaggan', gender: 'male', birth: 'Jan 2, 1945', location: 'Austin, TX', notes: 'Divorced from Cathy.' },
+    gregory_maclaggan: { name: 'Gregory Scott MacLaggan', gender: 'male', birth: 'Feb 14, 1946', location: 'San Diego, CA', notes: 'Divorced from Robin Tharp.' },
     chuck_maclaggan:   { name: 'Chuck MacLaggan', gender: 'male', birth: 'Sept 5, 1947', location: 'San Diego, CA' },
     ran_clark:         { name: 'Ran Clark', maiden: 'MacLaggan', gender: 'female', birth: 'Dec 11, 1948', location: 'Woodbridge, CA' },
     carol_fuhrman:     { name: 'Carol Fuhrman', maiden: 'MacLaggan', gender: 'female', birth: 'Mar 6, 1950', location: 'Lodi, CA' },
@@ -328,12 +328,14 @@ const people = {
     chris_maclaggan:   { name: 'Chris MacLaggan', gender: 'male', birth: 'Apr 14, 1958', location: 'Springfield, OR' },
 
     // --- Gen 6: Spouses ---
-    cathy_maclaggan:     { name: 'Cathy MacLaggan', gender: 'female', birth: 'Mar 2, 1952', location: 'Austin, TX' },
+    cathy_maclaggan:     { name: 'Cathy MacLaggan', gender: 'female', birth: 'Mar 2, 1952', location: 'Austin, TX', notes: 'Divorced from Jamie.' },
     pat_maclaggan:       { name: 'Pat MacLaggan', gender: 'female', birth: 'May 21, 1951' },
     paul_fuhrman:        { name: 'Paul Fuhrman', gender: 'male', birth: 'Sept 4, 1950' },
     bruce_austin:        { name: 'Bruce Austin', gender: 'male' },
     jenny_maclaggan:     { name: 'Jenny MacLaggan', gender: 'female', birth: 'May 27, 1962' },
     leslie_maclaggan:    { name: 'Leslie MacLaggan', gender: 'female', birth: 'Jan 26, 1961' },
+    robin_tharp:         { name: 'Robin Tharp', gender: 'female', notes: 'Divorced from Scott MacLaggan.' },
+    bud_clark:           { name: 'Bud Clark', gender: 'male' },
 
     // --- Gen 7: Jamie's children ---
     andrew_maclaggan:  { name: 'Andrew Long MacLaggan', gender: 'male', birth: 'June 8, 1975', location: 'Napa, CA' },
@@ -348,8 +350,8 @@ const people = {
 
     // --- Gen 7: Chuck's children ---
     brian_maclaggan: { name: 'Brian MacLaggan', gender: 'male', birth: 'Feb 11, 1974', location: 'San Diego, CA' },
-    colin_maclaggan: { name: 'Colin MacLaggan', gender: 'male', birth: 'Aug 10, 1976', location: 'San Diego, CA' },
-    estela_maclaggan: { name: 'Estela MacLaggan', gender: 'female', birth: 'May 8, 1981' },
+    colin_maclaggan: { name: 'Colin MacLaggan', gender: 'male', birth: 'Aug 10, 1976', location: 'San Diego, CA', notes: 'Divorced from Estella Mitrani.' },
+    estela_maclaggan: { name: 'Estella Mitrani', gender: 'female', birth: 'May 8, 1981', notes: 'Divorced from Colin MacLaggan.' },
 
     // --- Gen 7: Carol's children ---
     julie_coldani:     { name: 'Julie Coldani', maiden: 'Fuhrman', gender: 'female', birth: 'May 14, 1980', location: 'Lodi, CA' },
@@ -386,6 +388,9 @@ const people = {
     charlotte_e_maclaggan: { name: 'Charlotte Elizabeth MacLaggan', gender: 'female', birth: '2011' },
     james_c_maclaggan:     { name: 'James Christopher MacLaggan', gender: 'male', birth: '2013' },
     caroline_s_maclaggan:  { name: 'Caroline Soto MacLaggan', gender: 'female', birth: '2015' },
+
+    // --- Gen 8: Chuck's grandchildren ---
+    wolfgang_maclaggan: { name: 'Wolfgang MacLaggan', gender: 'male' },
 
     // --- Gen 8: Carol's grandchildren ---
     giada_coldani:    { name: 'Giada Michela Coldani', gender: 'female', birth: 'Jan 22, 2009' },
@@ -434,6 +439,8 @@ const marriages = [
     ['mickey_austin', 'bruce_austin'],
     ['peter_maclaggan', 'jenny_maclaggan'],
     ['chris_maclaggan', 'leslie_maclaggan'],
+    ['gregory_maclaggan', 'robin_tharp'],
+    ['ran_clark', 'bud_clark'],
     // Gen 7 marriages
     ['andrew_maclaggan', 'shawny_maclaggan'],
     ['corrie_maclaggan', 'oliver_bernstein'],
@@ -476,7 +483,7 @@ const families = [
     { couple: ['wes_maclaggan', 'kristin_maclaggan'], children: ['charlotte_e_maclaggan', 'james_c_maclaggan', 'caroline_s_maclaggan'] },
     { couple: ['julie_coldani', 'michael_coldani'], children: ['giada_coldani', 'gino_coldani', 'lorenzo_coldani'] },
     { couple: ['matt_fuhrman', 'stephanie_fuhrman'], children: ['stella_fuhrman', 'reese_fuhrman'] },
-    { couple: ['colin_maclaggan', 'estela_maclaggan'], children: [] },
+    { couple: ['colin_maclaggan', 'estela_maclaggan'], children: ['wolfgang_maclaggan'] },
     { couple: ['stephanie_oliver', 'andrew_oliver'], children: [] },
     { couple: ['katie_lamb', 'patrick_lamb'], children: ['madilynn_lamb', 'ella_lamb', 'sadie_lamb', 'hardin_lamb', 'ivy_lamb'] },
     { couple: ['lauren_sloan', 'nathan_sloan'], children: ['drew_sloan', 'collin_sloan', 'tanner_sloan'] },
@@ -538,10 +545,12 @@ const pos = {
     // Each sibling centered above their descendant column
     jamie_maclaggan:   [338,  ROW[5]],   // col center 519
     cathy_maclaggan:   [530,  ROW[5]],
-    gregory_maclaggan: [1386, ROW[5]],   // col center 1471 (single)
+    gregory_maclaggan: [1386, ROW[5]],   // col center 1471
+    robin_tharp:       [1578, ROW[5]],
     chuck_maclaggan:   [2019, ROW[5]],   // col center 2200
     pat_maclaggan:     [2211, ROW[5]],
-    ran_clark:         [2536, ROW[5]],   // col center 2621 (single, no kids)
+    ran_clark:         [2536, ROW[5]],   // col center 2621
+    bud_clark:         [2728, ROW[5]],
     carol_fuhrman:     [3075, ROW[5]],   // col center 3256
     paul_fuhrman:      [3267, ROW[5]],
     mickey_austin:     [3911, ROW[5]],   // col center 4092
@@ -606,6 +615,9 @@ const pos = {
     charlotte_e_maclaggan: [1089, ROW[7]],
     james_c_maclaggan:     [1281, ROW[7]],
     caroline_s_maclaggan:  [1473, ROW[7]],
+
+    // Colin + Estella's kids (center 2305)
+    wolfgang_maclaggan: [2220, ROW[7]],
 
     // Julie + Michael Coldani's kids (center 3044)
     giada_coldani:   [2767, ROW[7]],

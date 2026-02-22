@@ -176,7 +176,7 @@
 <div id="header">
     <div>
         <h1>MacLaggan & Long Family Tree</h1>
-        <div class="subtitle">Scotland &bull; Italy &bull; Arkansas &bull; Montana &bull; California &bull; Arizona</div>
+        <div class="subtitle">Scotland &bull; Italy &bull; Arkansas &bull; Montana &bull; California &bull; Arizona &bull; Texas &bull; Oregon &bull; Hawaii</div>
     </div>
     <div class="header-controls">
         <input type="text" id="search-box" placeholder="Search names..." oninput="searchPeople(this.value)">
@@ -318,14 +318,101 @@ const people = {
     edwin_long:       { name: 'Edwin Bishop Long', gender: 'male', birth: 'Sept 25, 1921', location: 'Phoenix, Arizona', photo: 'photos/Eddie Long.JPG' },
 
     // --- Gen 6: Children of Jim & Martha ---
-    gregory_maclaggan: { name: 'Gregory Scott MacLaggan', gender: 'male', birth: 'Feb 14, 1946', notes: 'Born on Valentine\'s Day (Thursday). May be "Scott" in family records.' },
-    jamie_maclaggan:   { name: 'Jamie MacLaggan', gender: 'male' },
-    chuck_maclaggan:   { name: 'Chuck MacLaggan', gender: 'male' },
-    ran_maclaggan:     { name: 'Ran MacLaggan', gender: 'female' },
-    katie_maclaggan:   { name: 'Katie MacLaggan', gender: 'female' },
-    mickey_maclaggan:  { name: 'Mickey MacLaggan', gender: 'female' },
-    peter_maclaggan:   { name: 'Peter MacLaggan', gender: 'male' },
-    chris_maclaggan:   { name: 'Chris MacLaggan', gender: 'male' },
+    jamie_maclaggan:   { name: 'Jamie MacLaggan', gender: 'male', birth: 'Jan 2, 1945', location: 'Austin, TX' },
+    gregory_maclaggan: { name: 'Gregory Scott MacLaggan', gender: 'male', birth: 'Feb 14, 1946', location: 'San Diego, CA' },
+    chuck_maclaggan:   { name: 'Chuck MacLaggan', gender: 'male', birth: 'Sept 5, 1947', location: 'San Diego, CA' },
+    ran_clark:         { name: 'Ran Clark', maiden: 'MacLaggan', gender: 'female', birth: 'Dec 11, 1948', location: 'Woodbridge, CA' },
+    carol_fuhrman:     { name: 'Carol Fuhrman', maiden: 'MacLaggan', gender: 'female', birth: 'Mar 6, 1950', location: 'Lodi, CA' },
+    mickey_austin:     { name: 'Mickey Austin', maiden: 'MacLaggan', gender: 'female', birth: 'Oct 27, 1952', location: 'Koloa, HI' },
+    peter_maclaggan:   { name: 'Peter MacLaggan', gender: 'male', birth: 'Mar 10, 1956', location: 'San Diego, CA' },
+    chris_maclaggan:   { name: 'Chris MacLaggan', gender: 'male', birth: 'Apr 14, 1958', location: 'Springfield, OR' },
+
+    // --- Gen 6: Spouses ---
+    cathy_maclaggan:     { name: 'Cathy MacLaggan', gender: 'female', birth: 'Mar 2, 1952', location: 'Austin, TX' },
+    pat_maclaggan:       { name: 'Pat MacLaggan', gender: 'female', birth: 'May 21, 1951' },
+    paul_fuhrman:        { name: 'Paul Fuhrman', gender: 'male', birth: 'Sept 4, 1950' },
+    bruce_austin:        { name: 'Bruce Austin', gender: 'male' },
+    jenny_maclaggan:     { name: 'Jenny MacLaggan', gender: 'female', birth: 'May 27, 1962' },
+    leslie_maclaggan:    { name: 'Leslie MacLaggan', gender: 'female', birth: 'Jan 26, 1961' },
+
+    // --- Gen 7: Jamie's children ---
+    andrew_maclaggan:  { name: 'Andrew Long MacLaggan', gender: 'male', birth: 'June 8, 1975', location: 'Napa, CA' },
+    shawny_maclaggan:  { name: 'Shawny MacLaggan', gender: 'female', birth: 'Nov 15, 1980' },
+    corrie_maclaggan:  { name: 'Corrie MacLaggan', gender: 'female', birth: 'Aug 1, 1980', location: 'Austin, TX' },
+    oliver_bernstein:  { name: 'Oliver Bernstein', gender: 'male', birth: 'Aug 11, 1980' },
+    michael_maclaggan: { name: 'Michael MacLaggan', gender: 'male', birth: 'Dec 23, 1981' },
+
+    // --- Gen 7: Scott's children ---
+    wes_maclaggan:       { name: 'Wes MacLaggan', gender: 'male', birth: 'Oct 21, 1976', location: 'Mill Valley, CA' },
+    kristin_maclaggan:   { name: 'Kristin Soto MacLaggan', gender: 'female' },
+    charlotte_maclaggan: { name: 'Charlotte MacLaggan', gender: 'female', birth: 'Nov 20, 1976' },
+
+    // --- Gen 7: Chuck's children ---
+    brian_maclaggan: { name: 'Brian MacLaggan', gender: 'male', birth: 'Feb 11, 1974', location: 'San Diego, CA' },
+    colin_maclaggan: { name: 'Colin MacLaggan', gender: 'male', birth: 'Aug 10, 1976', location: 'San Diego, CA' },
+    estela_maclaggan: { name: 'Estela MacLaggan', gender: 'female', birth: 'May 8, 1981' },
+
+    // --- Gen 7: Carol's children ---
+    julie_coldani:     { name: 'Julie Coldani', maiden: 'Fuhrman', gender: 'female', birth: 'May 14, 1980', location: 'Lodi, CA' },
+    michael_coldani:   { name: 'Michael Coldani', gender: 'male', birth: 'June 23, 1979' },
+    matt_fuhrman:      { name: 'Matt Fuhrman', gender: 'male', birth: 'Sept 17, 1983', location: 'Valley Springs, CA' },
+    stephanie_fuhrman: { name: 'Stephanie Fuhrman', gender: 'female', birth: 'Dec 7, 1985' },
+
+    // --- Gen 7: Mickey's children ---
+    james_austin:     { name: 'James Austin', gender: 'male', birth: 'Sept 29, 1988', location: 'Sacramento, CA' },
+    stephanie_oliver: { name: 'Stephanie Oliver', maiden: 'Austin', gender: 'female', birth: 'Feb 1, 1984', location: 'Portland, OR' },
+    andrew_oliver:    { name: 'Andrew Oliver', gender: 'male', birth: 'Dec 14, 1983' },
+
+    // --- Gen 7: Peter's children ---
+    katie_lamb:     { name: 'Katie Lamb', maiden: 'MacLaggan', gender: 'female', birth: 'June 5, 1985', location: 'Chapel Hill, TN' },
+    patrick_lamb:   { name: 'Patrick Lamb', gender: 'male', birth: 'July 13, 1984' },
+    megan_maclaggan: { name: 'Megan MacLaggan', gender: 'female', birth: 'Oct 28, 1987' },
+
+    // --- Gen 7: Chris's children ---
+    lauren_sloan:    { name: 'Lauren Sloan', maiden: 'MacLaggan', gender: 'female', birth: 'Jan 7, 1984', location: 'Fresno, CA' },
+    nathan_sloan:    { name: 'Nathan Sloan', gender: 'male', birth: 'Aug 2, 1980' },
+    jennifer_wardle: { name: 'Jennifer Wardle', maiden: 'MacLaggan', gender: 'female', birth: 'Jan 17, 1986', location: 'Eugene, OR' },
+    burke_wardle:    { name: 'Burke Wardle', gender: 'male', birth: 'Aug 30, 1985' },
+    christi_harris:  { name: 'Christi Harris', maiden: 'MacLaggan', gender: 'female', birth: 'Nov 30, 1988', location: 'Eugene, OR' },
+    tyler_harris:    { name: 'Tyler Harris', gender: 'male', birth: 'Aug 17, 1987' },
+    kelly_maclaggan: { name: 'Kelly MacLaggan', gender: 'female', birth: 'Mar 23, 1992', location: 'Long Beach, CA' },
+
+    // --- Gen 8: Jamie's grandchildren ---
+    brannon_maclaggan: { name: 'Brannon Long MacLaggan', gender: 'male', birth: 'Oct 11, 2017' },
+    corran_maclaggan:  { name: 'Corran Long MacLaggan', gender: 'male', birth: 'Feb 6, 2020' },
+    carmen_bernstein:  { name: 'Carmen Miriam Bernstein', gender: 'female', birth: 'July 4, 2011' },
+    leo_bernstein:     { name: 'Leo Sanford Bernstein', gender: 'male', birth: 'Mar 8, 2014' },
+
+    // --- Gen 8: Scott's grandchildren ---
+    james_c_maclaggan:    { name: 'James Christopher MacLaggan', gender: 'male', birth: 'May 23, 2011' },
+    caroline_maclaggan:   { name: 'Caroline MacLaggan', gender: 'female', birth: 'July 30, 2013' },
+    unnamed_maclaggan:    { name: 'MacLaggan', gender: 'unknown', birth: 'May 20, 2015' },
+
+    // --- Gen 8: Carol's grandchildren ---
+    giada_coldani:    { name: 'Giada Michela Coldani', gender: 'female', birth: 'Jan 22, 2009' },
+    gino_coldani:     { name: 'Gino Ray Coldani', gender: 'male', birth: 'July 19, 2011' },
+    lorenzo_coldani:  { name: 'Lorenzo Michael Coldani', gender: 'male', birth: 'Feb 25, 2015' },
+    stella_fuhrman:   { name: 'Stella Jean Fuhrman', gender: 'female', birth: 'June 20, 2012' },
+    reese_fuhrman:    { name: 'Reese Kathryn Fuhrman', gender: 'female', birth: 'Feb 11, 2016' },
+
+    // --- Gen 8: Peter's grandchildren ---
+    madilynn_lamb: { name: 'Madilynn Lamb', gender: 'female', birth: 'Nov 5, 2010' },
+    ella_lamb:     { name: 'Ella Kate Lamb', gender: 'female', birth: 'Jan 15, 2013' },
+    sadie_lamb:    { name: 'Sadie Lamb', gender: 'female', birth: 'Nov 15, 2013' },
+    hardin_lamb:   { name: 'Hardin Lamb', gender: 'male', birth: 'June 30, 2015' },
+    ivy_lamb:      { name: 'Ivy James Lamb', gender: 'female', birth: 'June 6, 2022' },
+
+    // --- Gen 8: Chris's grandchildren ---
+    drew_sloan:      { name: 'Drew Sloan', gender: 'male', birth: 'May 8, 2008' },
+    collin_sloan:    { name: 'Collin Sloan', gender: 'male', birth: 'July 21, 2010' },
+    tanner_sloan:    { name: 'Tanner Sloan', gender: 'male', birth: 'Oct 12, 2012' },
+    emmeline_wardle: { name: 'Emmeline Grace Wardle', gender: 'female', birth: 'July 31, 2013' },
+    georgia_wardle:  { name: 'Georgia Burke Wardle', gender: 'female', birth: 'Sept 18, 2015' },
+    ellis_wardle:    { name: 'Ellis Clay Wardle', gender: 'male', birth: 'June 8, 2017' },
+    elsie_harris:    { name: 'Elsie Noelle Harris', gender: 'female', birth: 'Dec 7, 2013' },
+    emery_harris:    { name: 'Emery June Harris', gender: 'female', birth: 'June 12, 2015' },
+    eisley_harris:   { name: 'Eisley Mae Harris', gender: 'female', birth: 'Sept 23, 2017' },
+    eden_harris:     { name: 'Eden Paige Harris', gender: 'female', birth: 'Oct 10, 2021' },
 
 };
 
@@ -341,6 +428,25 @@ const marriages = [
     ['charles_maclaggan', 'ida_maclaggan'],
     ['iva_long', 'john_long'],
     ['jim_maclaggan', 'martha_maclaggan'],
+    // Gen 6 marriages
+    ['jamie_maclaggan', 'cathy_maclaggan'],
+    ['chuck_maclaggan', 'pat_maclaggan'],
+    ['carol_fuhrman', 'paul_fuhrman'],
+    ['mickey_austin', 'bruce_austin'],
+    ['peter_maclaggan', 'jenny_maclaggan'],
+    ['chris_maclaggan', 'leslie_maclaggan'],
+    // Gen 7 marriages
+    ['andrew_maclaggan', 'shawny_maclaggan'],
+    ['corrie_maclaggan', 'oliver_bernstein'],
+    ['wes_maclaggan', 'kristin_maclaggan'],
+    ['colin_maclaggan', 'estela_maclaggan'],
+    ['julie_coldani', 'michael_coldani'],
+    ['matt_fuhrman', 'stephanie_fuhrman'],
+    ['stephanie_oliver', 'andrew_oliver'],
+    ['katie_lamb', 'patrick_lamb'],
+    ['lauren_sloan', 'nathan_sloan'],
+    ['jennifer_wardle', 'burke_wardle'],
+    ['christi_harris', 'tyler_harris'],
 ];
 
 // Families (couple → children)
@@ -354,7 +460,29 @@ const families = [
     { couple: ['alec_rossi', 'margaret_rossi'], children: ['ida_maclaggan'] },
     { couple: ['charles_maclaggan', 'ida_maclaggan'], children: ['charles_jr', 'marguerite_black', 'jim_maclaggan'] },
     { couple: ['iva_long', 'john_long'], children: ['martha_maclaggan', 'edwin_long'] },
-    { couple: ['jim_maclaggan', 'martha_maclaggan'], children: ['gregory_maclaggan', 'jamie_maclaggan', 'chuck_maclaggan', 'ran_maclaggan', 'katie_maclaggan', 'mickey_maclaggan', 'peter_maclaggan', 'chris_maclaggan'] },
+    { couple: ['jim_maclaggan', 'martha_maclaggan'], children: ['jamie_maclaggan', 'gregory_maclaggan', 'chuck_maclaggan', 'ran_clark', 'carol_fuhrman', 'mickey_austin', 'peter_maclaggan', 'chris_maclaggan'] },
+
+    // --- Gen 7: Children of Gen 6 ---
+    { couple: ['jamie_maclaggan', 'cathy_maclaggan'], children: ['andrew_maclaggan', 'corrie_maclaggan', 'michael_maclaggan'] },
+    { parent: 'gregory_maclaggan', children: ['wes_maclaggan', 'charlotte_maclaggan'] },
+    { couple: ['chuck_maclaggan', 'pat_maclaggan'], children: ['brian_maclaggan', 'colin_maclaggan'] },
+    { couple: ['carol_fuhrman', 'paul_fuhrman'], children: ['julie_coldani', 'matt_fuhrman'] },
+    { couple: ['mickey_austin', 'bruce_austin'], children: ['stephanie_oliver', 'james_austin'] },
+    { couple: ['peter_maclaggan', 'jenny_maclaggan'], children: ['katie_lamb', 'megan_maclaggan'] },
+    { couple: ['chris_maclaggan', 'leslie_maclaggan'], children: ['lauren_sloan', 'jennifer_wardle', 'christi_harris', 'kelly_maclaggan'] },
+
+    // --- Gen 8: Grandchildren ---
+    { couple: ['andrew_maclaggan', 'shawny_maclaggan'], children: ['brannon_maclaggan', 'corran_maclaggan'] },
+    { couple: ['corrie_maclaggan', 'oliver_bernstein'], children: ['carmen_bernstein', 'leo_bernstein'] },
+    { couple: ['wes_maclaggan', 'kristin_maclaggan'], children: ['james_c_maclaggan', 'caroline_maclaggan', 'unnamed_maclaggan'] },
+    { couple: ['julie_coldani', 'michael_coldani'], children: ['giada_coldani', 'gino_coldani', 'lorenzo_coldani'] },
+    { couple: ['matt_fuhrman', 'stephanie_fuhrman'], children: ['stella_fuhrman', 'reese_fuhrman'] },
+    { couple: ['colin_maclaggan', 'estela_maclaggan'], children: [] },
+    { couple: ['stephanie_oliver', 'andrew_oliver'], children: [] },
+    { couple: ['katie_lamb', 'patrick_lamb'], children: ['madilynn_lamb', 'ella_lamb', 'sadie_lamb', 'hardin_lamb', 'ivy_lamb'] },
+    { couple: ['lauren_sloan', 'nathan_sloan'], children: ['drew_sloan', 'collin_sloan', 'tanner_sloan'] },
+    { couple: ['jennifer_wardle', 'burke_wardle'], children: ['emmeline_wardle', 'georgia_wardle', 'ellis_wardle'] },
+    { couple: ['christi_harris', 'tyler_harris'], children: ['elsie_harris', 'emery_harris', 'eisley_harris', 'eden_harris'] },
 ];
 
 // ===================================================================
@@ -367,64 +495,151 @@ const families = [
 //  RIGHT branch: Wooley → Gunter → Bishop / Long → Iva+John → Martha
 //  They CONVERGE at Jim + Martha (married couple)
 // ===================================================================
-const ROW = [40, 220, 400, 580, 760, 960]; // Y positions per generation row
+const ROW = [40, 220, 400, 580, 760, 960, 1200, 1440, 1680]; // Y positions per generation row
 
+// Layout: Each Gen 6 sibling has a "column" wide enough for all descendants.
+// Children are always centered directly below their parents.
+// Upper gens (rows 0-4) shifted +2600 to center above the wide Gen 6 spread.
 const pos = {
     // --- Row 0 (Gen 1): Wooley ---
-    cc_wooley:      [1010, ROW[0]],
-    martha_wooley:  [1202, ROW[0]],
+    cc_wooley:      [3610, ROW[0]],
+    martha_wooley:  [3802, ROW[0]],
 
-    // --- Row 1 (Gen 2): Gunter (directly below Wooley) ---
-    isaiah_gunter:  [1010, ROW[1]],
-    martha_gunter:  [1202, ROW[1]],
+    // --- Row 1 (Gen 2): Gunter ---
+    isaiah_gunter:  [3610, ROW[1]],
+    martha_gunter:  [3802, ROW[1]],
 
     // --- Row 2 (Gen 3): Four couples + Annie ---
-    // LEFT: Elias+1stWife (→ Charles), then Rossi (→ Ida)
-    // RIGHT: Bishop (→ Iva), then George Long (→ John)
-    // Annie far left of Elias
-    annie_maclaggan:      [10,   ROW[2]],
-    elias_maclaggan:      [230,  ROW[2]],
-    first_wife_maclaggan: [422,  ROW[2]],
-    alec_rossi:           [640,  ROW[2]],
-    margaret_rossi:       [832,  ROW[2]],
-    rufus_bishop:         [1060, ROW[2]],
-    rosa_bishop:          [1252, ROW[2]],
-    george_long:          [1470, ROW[2]],
-    elizabeth_long:       [1662, ROW[2]],
+    annie_maclaggan:      [2610, ROW[2]],
+    elias_maclaggan:      [2830, ROW[2]],
+    first_wife_maclaggan: [3022, ROW[2]],
+    alec_rossi:           [3240, ROW[2]],
+    margaret_rossi:       [3432, ROW[2]],
+    rufus_bishop:         [3660, ROW[2]],
+    rosa_bishop:          [3852, ROW[2]],
+    george_long:          [4070, ROW[2]],
+    elizabeth_long:       [4262, ROW[2]],
 
     // --- Row 3 (Gen 4): Grandparents ---
-    // Half-sisters far left (from Elias+Annie)
-    helen_maclaggan:         [10,   ROW[3]],
-    margaret_maclaggan_half: [200,  ROW[3]],
-    // Charles+Ida centered between Elias(~411) & Rossi(~821) = ~616
-    charles_maclaggan:       [435,  ROW[3]],
-    ida_maclaggan:           [627,  ROW[3]],
-    // Iva+John centered between Bishop(~1241) & Long(~1651) = ~1446
-    // Iva LEFT (from Bishop), John RIGHT (from Long) — avoids crossing
-    iva_long:                [1265, ROW[3]],
-    john_long:               [1457, ROW[3]],
+    helen_maclaggan:         [2610, ROW[3]],
+    margaret_maclaggan_half: [2800, ROW[3]],
+    charles_maclaggan:       [3035, ROW[3]],
+    ida_maclaggan:           [3227, ROW[3]],
+    iva_long:                [3865, ROW[3]],
+    john_long:               [4057, ROW[3]],
 
     // --- Row 4 (Gen 5): Parents ---
-    // Charles+Ida center ≈ 616 → children: ChasJr, Marguerite, Jim
-    // Iva+John center ≈ 1446 → children: Martha, Edwin
-    // Jim & Martha are married: Jim pulled right, Martha pulled left
-    charles_jr:        [300,  ROW[4]],
-    marguerite_black:  [510,  ROW[4]],
-    jim_maclaggan:     [790,  ROW[4]],
-    martha_maclaggan:  [982,  ROW[4]],
-    edwin_long:        [1280, ROW[4]],
+    charles_jr:        [2900, ROW[4]],
+    marguerite_black:  [3110, ROW[4]],
+    jim_maclaggan:     [3390, ROW[4]],
+    martha_maclaggan:  [3582, ROW[4]],
+    edwin_long:        [3880, ROW[4]],
 
-    // --- Row 5 (Gen 6): Children ---
-    // Jim+Martha couple center ≈ 971. 8 children × 190px spacing = 1520
-    // Center at 971 → start = 971 - 760 = 211
-    gregory_maclaggan: [211,  ROW[5]],
-    jamie_maclaggan:   [401,  ROW[5]],
-    chuck_maclaggan:   [591,  ROW[5]],
-    ran_maclaggan:     [781,  ROW[5]],
-    katie_maclaggan:   [971,  ROW[5]],
-    mickey_maclaggan:  [1161, ROW[5]],
-    peter_maclaggan:   [1351, ROW[5]],
-    chris_maclaggan:   [1541, ROW[5]],
+    // --- Row 5 (Gen 6): MacLaggan siblings + spouses ---
+    // Each sibling centered above their descendant column
+    jamie_maclaggan:   [338,  ROW[5]],   // col center 519
+    cathy_maclaggan:   [530,  ROW[5]],
+    gregory_maclaggan: [1386, ROW[5]],   // col center 1471 (single)
+    chuck_maclaggan:   [2019, ROW[5]],   // col center 2200
+    pat_maclaggan:     [2211, ROW[5]],
+    ran_clark:         [2536, ROW[5]],   // col center 2621 (single, no kids)
+    carol_fuhrman:     [3075, ROW[5]],   // col center 3256
+    paul_fuhrman:      [3267, ROW[5]],
+    mickey_austin:     [3911, ROW[5]],   // col center 4092
+    bruce_austin:      [4103, ROW[5]],
+    peter_maclaggan:   [4832, ROW[5]],   // col center 5013
+    jenny_maclaggan:   [5024, ROW[5]],
+    chris_maclaggan:   [6572, ROW[5]],   // col center 6753
+    leslie_maclaggan:  [6764, ROW[5]],
+
+    // --- Row 6 (Gen 7): Children + spouses, centered under parents ---
+    // Jamie's kids (col 10–1028)
+    andrew_maclaggan:  [21,  ROW[6]],
+    shawny_maclaggan:  [213, ROW[6]],
+    corrie_maclaggan:  [445, ROW[6]],
+    oliver_bernstein:  [637, ROW[6]],
+    michael_maclaggan: [858, ROW[6]],
+
+    // Scott's kids (col 1078–1864)
+    wes_maclaggan:       [1185, ROW[6]],
+    kristin_maclaggan:   [1377, ROW[6]],
+    charlotte_maclaggan: [1694, ROW[6]],
+
+    // Chuck's kids (col 1914–2486)
+    brian_maclaggan:  [1914, ROW[6]],
+    colin_maclaggan:  [2124, ROW[6]],
+    estela_maclaggan: [2316, ROW[6]],
+
+    // Carol's kids (col 2756–3756)
+    julie_coldani:     [2863, ROW[6]],
+    michael_coldani:   [3055, ROW[6]],
+    matt_fuhrman:      [3383, ROW[6]],
+    stephanie_fuhrman: [3575, ROW[6]],
+
+    // Mickey's kids (col 3806–4378)
+    stephanie_oliver: [3806, ROW[6]],
+    andrew_oliver:    [3998, ROW[6]],
+    james_austin:     [4208, ROW[6]],
+
+    // Peter's kids (col 4428–5598)
+    katie_lamb:      [4727, ROW[6]],
+    patrick_lamb:    [4919, ROW[6]],
+    megan_maclaggan: [5428, ROW[6]],
+
+    // Chris's kids (col 5648–7858)
+    lauren_sloan:    [5755, ROW[6]],
+    nathan_sloan:    [5947, ROW[6]],
+    jennifer_wardle: [6371, ROW[6]],
+    burke_wardle:    [6563, ROW[6]],
+    christi_harris:  [7083, ROW[6]],
+    tyler_harris:    [7275, ROW[6]],
+    kelly_maclaggan: [7688, ROW[6]],
+
+    // --- Row 7 (Gen 8): Grandchildren, centered under parents ---
+    // Andrew + Shawny's kids (center 202)
+    brannon_maclaggan: [21,  ROW[7]],
+    corran_maclaggan:  [213, ROW[7]],
+
+    // Corrie + Oliver's kids (center 626)
+    carmen_bernstein: [445, ROW[7]],
+    leo_bernstein:    [637, ROW[7]],
+
+    // Wes + Kristin's kids (center 1366)
+    james_c_maclaggan:  [1089, ROW[7]],
+    caroline_maclaggan: [1281, ROW[7]],
+    unnamed_maclaggan:  [1473, ROW[7]],
+
+    // Julie + Michael Coldani's kids (center 3044)
+    giada_coldani:   [2767, ROW[7]],
+    gino_coldani:    [2959, ROW[7]],
+    lorenzo_coldani: [3151, ROW[7]],
+
+    // Matt + Stephanie Fuhrman's kids (center 3564)
+    stella_fuhrman: [3383, ROW[7]],
+    reese_fuhrman:  [3575, ROW[7]],
+
+    // Katie + Patrick Lamb's kids (center 4908)
+    madilynn_lamb: [4439, ROW[7]],
+    ella_lamb:     [4631, ROW[7]],
+    sadie_lamb:    [4823, ROW[7]],
+    hardin_lamb:   [5015, ROW[7]],
+    ivy_lamb:      [5207, ROW[7]],
+
+    // Lauren + Nathan Sloan's kids (center 5936)
+    drew_sloan:   [5659, ROW[7]],
+    collin_sloan: [5851, ROW[7]],
+    tanner_sloan: [6043, ROW[7]],
+
+    // Jennifer + Burke Wardle's kids (center 6552)
+    emmeline_wardle: [6275, ROW[7]],
+    georgia_wardle:  [6467, ROW[7]],
+    ellis_wardle:    [6659, ROW[7]],
+
+    // Christi + Tyler Harris's kids (center 7264)
+    elsie_harris:  [6891, ROW[7]],
+    emery_harris:  [7083, ROW[7]],
+    eisley_harris: [7275, ROW[7]],
+    eden_harris:   [7467, ROW[7]],
 
 };
 
@@ -464,7 +679,7 @@ const timelineEvents = [
 // ===================================================================
 //  RENDERING
 // ===================================================================
-let scale = 0.52, panX = 80, panY = 10;
+let scale = 0.18, panX = 20, panY = 10;
 let isDragging = false, dragStartX, dragStartY;
 let selectedPerson = null;
 
@@ -743,7 +958,7 @@ function updateTransform() {
 }
 function zoomIn() { scale = Math.min(scale * 1.2, 2); updateTransform(); }
 function zoomOut() { scale = Math.max(scale / 1.2, 0.15); updateTransform(); }
-function resetZoom() { scale = 0.52; panX = 80; panY = 10; updateTransform(); }
+function resetZoom() { scale = 0.18; panX = 20; panY = 10; updateTransform(); }
 
 const wrapper = document.getElementById('canvas-wrapper');
 wrapper.addEventListener('mousedown', e => { if (e.target.closest('.person-card')) return; isDragging = true; dragStartX = e.clientX - panX; dragStartY = e.clientY - panY; });
@@ -799,7 +1014,7 @@ function toggleView(view) {
 function renderStats() {
     document.getElementById('stats-grid').innerHTML = `
         <div class="stat-card"><div class="stat-number">${Object.keys(people).length}</div><div class="stat-label">Family Members</div></div>
-        <div class="stat-card"><div class="stat-number">6</div><div class="stat-label">Generations Traced</div></div>
+        <div class="stat-card"><div class="stat-number">8</div><div class="stat-label">Generations Traced</div></div>
         <div class="stat-card"><div class="stat-number">3</div><div class="stat-label">Countries of Origin</div></div>
         <div class="stat-card"><div class="stat-number">${marriages.length}</div><div class="stat-label">Marriages</div></div>
     `;

@@ -1560,10 +1560,8 @@ function renderMobileAncestors(personId) {
         allGrandparents.forEach(gid => {
             const gp = people[gid];
             if (!gp) return;
-            const dates = formatDates(gp);
             html += `<div class="ancestor-card ${gp.gender}" onclick="mobileNavigateTo('${gid}')">`;
             html += `<div class="ancestor-name">${gp.name}</div>`;
-            if (dates) html += `<div class="ancestor-meta">${dates}</div>`;
             html += '</div>';
         });
         html += '</div></div>';
@@ -1575,12 +1573,9 @@ function renderMobileAncestors(personId) {
     parentIds.forEach(pid => {
         const pp = people[pid];
         if (!pp) return;
-        const dates = formatDates(pp);
         html += `<div class="ancestor-card parent-card ${pp.gender}" onclick="mobileNavigateTo('${pid}')">`;
         if (pp.photo) html += `<img class="ancestor-photo" src="${pp.photo}" alt="${pp.name}">`;
         html += `<div class="ancestor-name">${pp.name}</div>`;
-        if (dates) html += `<div class="ancestor-meta">${dates}</div>`;
-        if (pp.location) html += `<div class="ancestor-meta">${pp.location}</div>`;
         html += '</div>';
     });
     html += '</div></div>';
